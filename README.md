@@ -1,6 +1,6 @@
 # ChainSplit
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+Bill Splitting website using Solidity smart contracts on the Ethereum blockchain.
 
 Try running some of the following tasks:
 
