@@ -39,7 +39,15 @@ contract billSplit {
     // Event emitted when a user has sent tokens to a initiator
     event DepositReceived(address sender, uint256 amount, uint256 time);
 
-    constructor() {
-        
+    constructor (
+        uint256 _totalAmount,
+        address payable _initiator,
+        address payable _depositor,
+        string memory _method
+    ) {
+        totalAmount = _totalAmount;
+        initiator = _initiator;
+        depositor = _depositor;
+        method = _method;
     }
 }
