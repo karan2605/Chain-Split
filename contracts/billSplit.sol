@@ -36,6 +36,9 @@ contract billSplit {
     // Fallback function is called when msg.data is not empty
     fallback() external payable {}
 
+    // Event emitted when a user has sent tokens to a initiator
+    event DepositReceived(address sender, uint256 amount, uint256 time);
+
     constructor() {
         
     }
