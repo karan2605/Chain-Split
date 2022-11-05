@@ -16,7 +16,12 @@ contract billSplit {
     uint256 depositorAmt;
     string method;
     Token public token;
-    
+
+    modifier OnlyInitiator {
+        require(msg.sender == initiator, "Only initiator can begin split");
+        _;
+    }
+
     constructor() {
         
     }
