@@ -22,6 +22,14 @@ contract billSplit {
         _;
     }
 
+    function compare(string memory a, string memory b) internal pure returns (bool) {
+        if(bytes(a).length != bytes(b).length) {
+            return false;
+        } else {
+            return keccak256(bytes(a)) == keccak256(bytes(b));
+        }
+    }
+
     constructor() {
         
     }
