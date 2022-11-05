@@ -50,4 +50,21 @@ contract billSplit {
         depositor = _depositor;
         method = _method;
     }
+
+    function initiateSplit(uint256 _initiatorAmt, uint256 _depositorAmt) external OnlyInitiator {
+        initiatorAmt = _initiatorAmt;
+        depositorAmt = _depositorAmt;
+        require(_initiatorAmt >= 0, "Initiator amount must be non-negative");
+        require(_initiatorAmt >= 0, "Initiator amount must be non-negative");
+
+        if(compare(method, "int")) {
+            require(_depositorAmt >= 0, "Depositor amount must be non-negative");
+            require(_initiatorAmt + _depositorAmt == totalAmount, "Split does not equal total amount owed.");
+        }
+        else if(compare(method, "proportion")) {
+            require(_initiatorAmt <= 100, "Initiator percentage must be less than 100");
+            require(_depositorAmt <= 100, "Depositor percentage must be less than 100");
+            require(_initiatorAmt + _depositorAmt == 100, "Split proportion does not equal 100%");
+        }
+    }
 }
