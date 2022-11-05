@@ -67,4 +67,25 @@ contract billSplit {
             require(_initiatorAmt + _depositorAmt == 100, "Split proportion does not equal 100%");
         }
     }
+
+    function split() external payable {
+        if(compare(method, "int") && msg.sender == depositor) {
+            // Transfer depositors tokens into contract
+            token.transferFrom(msg.sender, address(this), depositorAmt);
+        }
+        else if(compare(method, "proportion") && msg.sender == depositor) {
+            // Transfer depositors tokens into contract
+            token.transferFrom(msg.sender, address(this), totalAmount*(depositorAmt/100));
+        }
+
+        // Assert account balance equals total-initiatorAmt
+        uint256 balance = token.balanceOf(address(this));
+        require(balance == depositorAmt, "Funds not received from depositor");
+
+        // Transfer account balance to initiator
+        token.transfer(initiator, balance);
+
+        // Emit an event indicating the depositor has sent money to the initiator through the contract
+        emit DepositReceived(depositor, depositorAmt, block.timestamp);
+    }
 }
