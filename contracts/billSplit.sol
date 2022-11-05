@@ -6,7 +6,7 @@ import "hardhat/console.sol";
 import "./Token.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
-contract billSplit {
+contract BillSplit {
     using SafeMath for uint256;
 
     uint256 totalAmount;
