@@ -66,6 +66,15 @@ contract BillSplit {
             require(_depositorAmt <= 100, "Depositor percentage must be less than 100");
             require(_initiatorAmt + _depositorAmt == 100, "Split proportion does not equal 100%");
         }
+
+        if(compare(method, "int") && msg.sender == initiator) {
+            // Transfer depositors tokens into contract
+            token.transferFrom(msg.sender, address(this), initiatorAmt);
+        }
+        else if(compare(method, "proportion") && msg.sender == initiator) {
+            // Transfer depositors tokens into contract
+            token.transferFrom(msg.sender, address(this), totalAmount*(initiatorAmt/100));
+        }
     }
 
     function split() external payable {
@@ -77,10 +86,10 @@ contract BillSplit {
             // Transfer depositors tokens into contract
             token.transferFrom(msg.sender, address(this), totalAmount*(depositorAmt/100));
         }
-
+        
         // Assert account balance equals total-initiatorAmt
         uint256 balance = token.balanceOf(address(this));
-        require(balance == depositorAmt, "Funds not received from depositor");
+        require(balance == totalAmount, "Funds not received from depositor or initiator");
 
         // Transfer account balance to initiator
         token.transfer(initiator, balance);
