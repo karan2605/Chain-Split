@@ -3,8 +3,8 @@
 pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
-import "./Token.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract BillSplit {
     using SafeMath for uint256;
@@ -12,89 +12,84 @@ contract BillSplit {
     uint256 totalAmount;
     address payable public initiator;
     address payable public depositor;
+    address public deployer;
+    address tokenAddress;
     uint256 initiatorAmt;
     uint256 depositorAmt;
-    string method;
-    Token public token;
+    ERC20 public token;
 
     modifier OnlyInitiator {
         require(msg.sender == initiator, "Only initiator can begin split");
         _;
     }
 
-    function compare(string memory a, string memory b) internal pure returns (bool) {
-        if(bytes(a).length != bytes(b).length) {
-            return false;
-        } else {
-            return keccak256(bytes(a)) == keccak256(bytes(b));
-        }
+    modifier OnlyDepositor {
+        require(msg.sender == depositor, "Only the despositor can add their split amount");
+        _;
     }
 
     // Function to receive Ether. msg.data must be empty
     receive() external payable {}
 
-    // Fallback function is called when msg.data is not empty
-    fallback() external payable {}
+    // Event when a split has been initiated
+    event SplitInitiated(address initiator, address depositor, uint256 total);
 
-    // Event emitted when a user has sent tokens to a initiator
-    event DepositReceived(address sender, uint256 amount, uint256 time);
+    // Event emitted when a depositer has sent tokens to the contract
+    event DepositReceived(address sender, uint256 amount);
+
+    // Event emitted when the split has been completed
+    event SplitCompleted(address initiator, uint256 totalAmount);
 
     constructor (
         uint256 _totalAmount,
         address payable _initiator,
         address payable _depositor,
-        string memory _method
+        address payable _deployer,
+        address _tokenAddress
     ) {
         totalAmount = _totalAmount;
         initiator = _initiator;
         depositor = _depositor;
-        method = _method;
+        deployer = _deployer;
+        token = ERC20(_tokenAddress);
+        tokenAddress = _tokenAddress;
     }
 
     function initiateSplit(uint256 _initiatorAmt, uint256 _depositorAmt) external OnlyInitiator {
         initiatorAmt = _initiatorAmt;
         depositorAmt = _depositorAmt;
         require(_initiatorAmt >= 0, "Initiator amount must be non-negative");
-        require(_initiatorAmt >= 0, "Initiator amount must be non-negative");
 
-        if(compare(method, "int")) {
-            require(_depositorAmt >= 0, "Depositor amount must be non-negative");
-            require(_initiatorAmt + _depositorAmt == totalAmount, "Split does not equal total amount owed.");
-        }
-        else if(compare(method, "proportion")) {
-            require(_initiatorAmt <= 100, "Initiator percentage must be less than 100");
-            require(_depositorAmt <= 100, "Depositor percentage must be less than 100");
-            require(_initiatorAmt + _depositorAmt == 100, "Split proportion does not equal 100%");
-        }
+        require(_depositorAmt >= 0, "Depositor amount must be non-negative");
+        require(_initiatorAmt + _depositorAmt == totalAmount, "Split does not equal total amount owed.");
+    
+        // Transfer depositors tokens into contract
+        token.transferFrom(deployer, address(this), initiatorAmt);
 
-        if(compare(method, "int") && msg.sender == initiator) {
-            // Transfer depositors tokens into contract
-            token.transferFrom(msg.sender, address(this), initiatorAmt);
-        }
-        else if(compare(method, "proportion") && msg.sender == initiator) {
-            // Transfer depositors tokens into contract
-            token.transferFrom(msg.sender, address(this), totalAmount*(initiatorAmt/100));
-        }
+        require(token.balanceOf(address(this)) == initiatorAmt, "Initiators split not transferred");
+
+        emit SplitInitiated(initiator, depositor, totalAmount);
     }
 
-    function split() external payable {
-        if(compare(method, "int") && msg.sender == depositor) {
-            // Transfer depositors tokens into contract
-            token.transferFrom(msg.sender, address(this), depositorAmt);
-        }
-        else if(compare(method, "proportion") && msg.sender == depositor) {
-            // Transfer depositors tokens into contract
-            token.transferFrom(msg.sender, address(this), totalAmount*(depositorAmt/100));
-        }
-        
-        // Assert account balance equals total-initiatorAmt
-        uint256 balance = token.balanceOf(address(this));
-        require(balance == totalAmount, "Funds not received from depositor or initiator");
+    function split() external OnlyDepositor {
 
-        // Transfer account balance to initiator
-        token.transfer(initiator, balance);
+        // Transfer depositors tokens into contract
+        token.transferFrom(deployer, address(this), depositorAmt);
+        
+        // Assert account balance equals total
+        uint256 balance = token.balanceOf(address(this));
+        require(balance == totalAmount, "Funds not received from depositor");
 
         // Emit an event indicating the depositor has sent money to the initiator through the contract
-        emit DepositReceived(depositor, depositorAmt, block.timestamp);
+        emit DepositReceived(depositor, depositorAmt);
+    }
+
+    function transferTotal() external OnlyInitiator {
+
+        // Transfer account balance to initiator
+        token.transfer(initiator, token.balanceOf(address(this)));
+
+        // Emit an event indicating the depositor has sent money to the initiator through the contract
+        emit SplitCompleted(initiator, totalAmount);
     }
 }
