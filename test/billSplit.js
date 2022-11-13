@@ -7,12 +7,18 @@ const tokens = (n) => {
 
 describe("BillSplit", () => {
 
-    let deployer, initiator, depositor
-    let token, billSplit, amountOwed
+    let deployer, initiator, depositor1, depositor2, depositor3
+    let token, billSplit, amountOwed, transaction
     
     beforeEach(async () => {
         // Setup accounts
-        [deployer, initiator, depositor] = await ethers.getSigners()
+        let accounts = await ethers.getSigners()
+        deployer = accounts[0]
+        initiator = accounts[1]
+        depositor1 = accounts[2]
+        depositor2 = accounts[3]
+        depositor3 = accounts[4]
+
         amountOwed = tokens(10)
 
         // Load Contracts
@@ -26,18 +32,16 @@ describe("BillSplit", () => {
         billSplit = await BillSplit.deploy(
             amountOwed,
             initiator.address,
-            depositor.address,
+            [depositor1.address, depositor2.address, depositor3.address],
             deployer.address,
             token.address
         )
 
-        // Approve depositor account
-        let transaction = await token.connect(deployer).approve(depositor.address, amountOwed)
-        await transaction.wait()
-
-        // Approve initiator account
-        transaction = await token.connect(deployer).approve(initiator.address, tokens(100))
-        await transaction.wait()
+        // Approve initiator and depositor accounts
+        for(let i=1; i<5; i++) {
+            transaction = await token.connect(deployer).approve(accounts[i].address, amountOwed)
+            await transaction.wait()
+        }
 
         // Approve contract account
         transaction = await token.connect(deployer).approve(billSplit.address, amountOwed)
@@ -52,19 +56,39 @@ describe("BillSplit", () => {
             expect(result).to.be.equal(initiator.address)
         })
 
-        it("Returns Depositor Address", async() => {
-            const result = await billSplit.depositor()
-            expect(result).to.be.equal(depositor.address)
+        it("Returns Depositor1 Address", async() => {
+            const result = await billSplit.depositors(0)
+            expect(result).to.be.equal(depositor1.address)
         })
 
-        it("Has the correct allowance for the depositor", async() => {
-            const result = await token.allowance(deployer.address, depositor.address)
+        it("Returns Depositor2 Address", async() => {
+            const result = await billSplit.depositors(1)
+            expect(result).to.be.equal(depositor2.address)
+        })
+
+        it("Returns Depositor3 Address", async() => {
+            const result = await billSplit.depositors(2)
+            expect(result).to.be.equal(depositor3.address)
+        })
+
+        it("Has the correct allowance for the depositor2", async() => {
+            const result = await token.allowance(deployer.address, depositor1.address)
+            expect(result).to.equal(amountOwed)
+        })
+
+        it("Has the correct allowance for the depositor2", async() => {
+            const result = await token.allowance(deployer.address, depositor2.address)
+            expect(result).to.equal(amountOwed)
+        })
+
+        it("Has the correct allowance for the depositor3", async() => {
+            const result = await token.allowance(deployer.address, depositor3.address)
             expect(result).to.equal(amountOwed)
         })
 
         it("Has the correct allowance for the initiator", async() => {
             const result = await token.allowance(deployer.address, initiator.address)
-            expect(result).to.equal(tokens(100))
+            expect(result).to.equal(amountOwed)
         })
 
         it("Has the correct allowance for the contract", async() => {
@@ -73,7 +97,7 @@ describe("BillSplit", () => {
         })
     })
 
-    describe("Splitting", () => {
+    /*describe("Splitting", () => {
         beforeEach("Allows the split initiator to begin a split", async() => {
             let transaction = await billSplit.connect(initiator).initiateSplit(tokens(4), tokens(6))
             await transaction.wait()
@@ -110,4 +134,14 @@ describe("BillSplit", () => {
             expect(result).to.equal(0)
         })
     })
+
+    describe("Splitting between more than 2 parties", () => {
+        beforeEach("Allows the split initiator to begin a split", async() => {
+            let transaction = await billSplit.connect(initiator).initiateSplit(tokens(4), tokens(6))
+            await transaction.wait()
+
+            await expect(transaction).to.emit(billSplit, 'SplitInitiated')
+                .withArgs(initiator.address, depositor.address, tokens(10))
+        })
+    })*/
 });
