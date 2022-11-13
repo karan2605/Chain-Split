@@ -132,12 +132,9 @@ describe("BillSplit", () => {
 
         it("Initiator collects all of its funds", async() => {
             let transaction = await billSplit.connect(depositor1).split()
-            await transaction.wait()
             transaction = await billSplit.connect(depositor2).split()
-            await transaction.wait()
             transaction = await billSplit.connect(depositor3).split()
-            await transaction.wait()
-
+           
             transaction = await billSplit.connect(initiator).transferTotal()
             await transaction.wait()
 
