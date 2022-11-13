@@ -13,12 +13,12 @@ contract BillSplit is ReentrancyGuard {
     uint256 private totalAmount;
     address payable public initiator;
     address payable[] public depositors;
+
     mapping (address => uint) public depositorOwes;
     mapping (address => bool) private depositorExists;
     address public deployer;
     address private tokenAddress;
-    uint256 private initiatorAmt;
-    uint256 private depositorAmt;
+
     ERC20 public token;
 
     modifier OnlyInitiator {
@@ -67,10 +67,10 @@ contract BillSplit is ReentrancyGuard {
     function initiateSplit(uint256 _initiatorAmt, uint256[] memory _depositorAmts) external OnlyInitiator {
         uint256 depositorTotal = 0;
 
-        initiatorAmt = _initiatorAmt;
         require(_initiatorAmt >= 0, "Initiator amount must be non-negative");
 
         // Calculates the total amount that must be given by all depositors
+        // Adds entry to mapping indicating how much each account owes
         for(uint i = 0; i < _depositorAmts.length; i++) {
             depositorTotal += _depositorAmts[i];
             require(_depositorAmts[i] >= 0, "Depositor amount must be non-negative");
@@ -80,8 +80,8 @@ contract BillSplit is ReentrancyGuard {
         require(_initiatorAmt + depositorTotal == totalAmount, "Split does not equal total amount owed.");
     
         // Transfer depositors tokens into contract
-        token.transferFrom(deployer, address(this), initiatorAmt);
-        require(token.balanceOf(address(this)) == initiatorAmt, "Initiators split not transferred");
+        token.transferFrom(deployer, address(this), _initiatorAmt);
+        require(token.balanceOf(address(this)) == _initiatorAmt, "Initiators split not transferred");
         emit SplitInitiated(initiator, totalAmount);
     }
 
