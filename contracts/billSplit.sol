@@ -12,7 +12,8 @@ contract BillSplit is ReentrancyGuard {
 
     uint256 totalAmount;
     address payable public initiator;
-    address payable public depositor;
+    address payable[] public depositors;
+    mapping (address => uint) public depositorOwes;
     address public deployer;
     address tokenAddress;
     uint256 initiatorAmt;
@@ -25,7 +26,7 @@ contract BillSplit is ReentrancyGuard {
     }
 
     modifier OnlyDepositor {
-        require(msg.sender == depositor, "Only the despositor can add their split amount");
+        require(msg.sender == depositors, "Only the despositor can add their split amount");
         _;
     }
 
@@ -33,7 +34,7 @@ contract BillSplit is ReentrancyGuard {
     receive() external payable {}
 
     // Event when a split has been initiated
-    event SplitInitiated(address initiator, address depositor, uint256 total);
+    event SplitInitiated(address initiator, address[] depositors, uint256 total);
 
     // Event emitted when a depositer has sent tokens to the contract
     event DepositReceived(address sender, uint256 amount);
@@ -44,32 +45,41 @@ contract BillSplit is ReentrancyGuard {
     constructor (
         uint256 _totalAmount,
         address payable _initiator,
-        address payable _depositor,
+        address payable[] _depositors,
         address payable _deployer,
         address _tokenAddress
     ) {
         totalAmount = _totalAmount;
         initiator = _initiator;
-        depositor = _depositor;
+        depositors = _depositors;
+
+        for(uint i = 0; i < _depositors.length; i++) {
+            depositorOwes[_depositors[i]] = 0;
+        }
+
         deployer = _deployer;
         token = ERC20(_tokenAddress);
         tokenAddress = _tokenAddress;
     }
 
-    function initiateSplit(uint256 _initiatorAmt, uint256 _depositorAmt) external OnlyInitiator {
+    function initiateSplit(uint256 _initiatorAmt, uint256[] _depositorAmts) external OnlyInitiator {
+        uint256 depositorTotal = 0;
+
         initiatorAmt = _initiatorAmt;
-        depositorAmt = _depositorAmt;
         require(_initiatorAmt >= 0, "Initiator amount must be non-negative");
 
-        require(_depositorAmt >= 0, "Depositor amount must be non-negative");
-        require(_initiatorAmt + _depositorAmt == totalAmount, "Split does not equal total amount owed.");
+        for(uint i = 0; i < _depositorAmts.length; i++) {
+            depositorTotal += _depositorAmts[i];
+            require(_depositorAmts[i] >= 0, "Depositor amount must be non-negative");
+            depositorOwes[depositors[i]] = _depositorAmts[i];
+        }
+
+        require(_initiatorAmt + depositorTotal == totalAmount, "Split does not equal total amount owed.");
     
         // Transfer depositors tokens into contract
         token.transferFrom(deployer, address(this), initiatorAmt);
-
         require(token.balanceOf(address(this)) == initiatorAmt, "Initiators split not transferred");
-
-        emit SplitInitiated(initiator, depositor, totalAmount);
+        emit SplitInitiated(initiator, depositors, totalAmount);
     }
 
     function split() external OnlyDepositor {
