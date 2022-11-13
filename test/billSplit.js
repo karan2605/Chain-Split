@@ -97,25 +97,45 @@ describe("BillSplit", () => {
         })
     })
 
-    /*describe("Splitting", () => {
+    describe("Splitting", () => {
         beforeEach("Allows the split initiator to begin a split", async() => {
-            let transaction = await billSplit.connect(initiator).initiateSplit(tokens(4), tokens(6))
+            let transaction = await billSplit.connect(initiator).initiateSplit(tokens(2), [tokens(3), tokens(4), tokens(1)])
             await transaction.wait()
 
             await expect(transaction).to.emit(billSplit, 'SplitInitiated')
-                .withArgs(initiator.address, depositor.address, tokens(10))
+                .withArgs(initiator.address, tokens(10))
         })
 
-        it("Allows the depositor to add their share of the split", async() => {
-            let transaction = await billSplit.connect(depositor).split()
+        it("Allows depositor1 to add their share of the split", async() => {
+            let transaction = await billSplit.connect(depositor1).split()
             await transaction.wait()
 
             await expect(transaction).to.emit(billSplit, 'DepositReceived')
-                .withArgs(depositor.address, tokens(6))
+                .withArgs(depositor1.address, tokens(3))
+        })
+
+        it("Allows depositor2 to add their share of the split", async() => {
+            let transaction = await billSplit.connect(depositor2).split()
+            await transaction.wait()
+
+            await expect(transaction).to.emit(billSplit, 'DepositReceived')
+                .withArgs(depositor2.address, tokens(4))
+        })
+
+        it("Allows depositor3 to add their share of the split", async() => {
+            let transaction = await billSplit.connect(depositor3).split()
+            await transaction.wait()
+
+            await expect(transaction).to.emit(billSplit, 'DepositReceived')
+                .withArgs(depositor3.address, tokens(1))
         })
 
         it("Initiator collects all of its funds", async() => {
-            let transaction = await billSplit.connect(depositor).split()
+            let transaction = await billSplit.connect(depositor1).split()
+            await transaction.wait()
+            transaction = await billSplit.connect(depositor2).split()
+            await transaction.wait()
+            transaction = await billSplit.connect(depositor3).split()
             await transaction.wait()
 
             transaction = await billSplit.connect(initiator).transferTotal()
@@ -129,19 +149,19 @@ describe("BillSplit", () => {
             expect(result).to.equal(tokens(10))
         })
 
-        it("Depositors balance is drained", async() => {
-            const result = await token.balanceOf(depositor.address)
+        it("Depositor1 balance is drained", async() => {
+            const result = await token.balanceOf(depositor1.address)
+            expect(result).to.equal(0)
+        })
+
+        it("Depositor2 balance is drained", async() => {
+            const result = await token.balanceOf(depositor2.address)
+            expect(result).to.equal(0)
+        })
+
+        it("Depositor3 balance is drained", async() => {
+            const result = await token.balanceOf(depositor3.address)
             expect(result).to.equal(0)
         })
     })
-
-    describe("Splitting between more than 2 parties", () => {
-        beforeEach("Allows the split initiator to begin a split", async() => {
-            let transaction = await billSplit.connect(initiator).initiateSplit(tokens(4), tokens(6))
-            await transaction.wait()
-
-            await expect(transaction).to.emit(billSplit, 'SplitInitiated')
-                .withArgs(initiator.address, depositor.address, tokens(10))
-        })
-    })*/
 });
