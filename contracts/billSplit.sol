@@ -10,14 +10,15 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 contract BillSplit is ReentrancyGuard {
     using SafeMath for uint256;
 
-    uint256 totalAmount;
+    uint256 private totalAmount;
     address payable public initiator;
     address payable[] public depositors;
     mapping (address => uint) public depositorOwes;
+    mapping (address => bool) private depositorExists;
     address public deployer;
-    address tokenAddress;
-    uint256 initiatorAmt;
-    uint256 depositorAmt;
+    address private tokenAddress;
+    uint256 private initiatorAmt;
+    uint256 private depositorAmt;
     ERC20 public token;
 
     modifier OnlyInitiator {
@@ -25,10 +26,8 @@ contract BillSplit is ReentrancyGuard {
         _;
     }
 
-    modifier OnlyDepositor {
-        for(uint i = 0; i < depositors.length; i++) {
-            require(msg.sender == depositors[i], "Only the despositor can add their split amount");
-        }
+    modifier OnlyDepositor(address _caller) {
+        require(depositorExists[_caller], "Only the depositor can add their split amount");
         _;
     }
 
@@ -57,6 +56,7 @@ contract BillSplit is ReentrancyGuard {
 
         for(uint i = 0; i < _depositors.length; i++) {
             depositorOwes[_depositors[i]] = 0;
+            depositorExists[_depositors[i]] = true;
         }
 
         deployer = _deployer;
@@ -70,6 +70,7 @@ contract BillSplit is ReentrancyGuard {
         initiatorAmt = _initiatorAmt;
         require(_initiatorAmt >= 0, "Initiator amount must be non-negative");
 
+        // Calculates the total amount that must be given by all depositors
         for(uint i = 0; i < _depositorAmts.length; i++) {
             depositorTotal += _depositorAmts[i];
             require(_depositorAmts[i] >= 0, "Depositor amount must be non-negative");
@@ -84,17 +85,20 @@ contract BillSplit is ReentrancyGuard {
         emit SplitInitiated(initiator, totalAmount);
     }
 
-    function split() external OnlyDepositor {
+    function split() external OnlyDepositor(msg.sender) {
+
+        // Check balance before TxN
+        uint256 balanceBefore = token.balanceOf(address(this));
 
         // Transfer depositors tokens into contract
         token.transferFrom(deployer, address(this), depositorOwes[msg.sender]);
         
         // Assert account balance equals total
         uint256 balance = token.balanceOf(address(this));
-        require(balance == totalAmount, "Funds not received from depositor");
+        require(balance == depositorOwes[msg.sender] + balanceBefore, "Funds not received from depositor");
 
         // Emit an event indicating the depositor has sent money to the initiator through the contract
-        emit DepositReceived(msg.sender, depositorAmt);
+        emit DepositReceived(msg.sender, depositorOwes[msg.sender]);
     }
 
     function transferTotal() external OnlyInitiator {
