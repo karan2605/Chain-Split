@@ -26,7 +26,9 @@ contract BillSplit is ReentrancyGuard {
     }
 
     modifier OnlyDepositor {
-        require(msg.sender == depositors, "Only the despositor can add their split amount");
+        for(uint i = 0; i < depositors.length; i++) {
+            require(msg.sender == depositors[i], "Only the despositor can add their split amount");
+        }
         _;
     }
 
@@ -34,7 +36,7 @@ contract BillSplit is ReentrancyGuard {
     receive() external payable {}
 
     // Event when a split has been initiated
-    event SplitInitiated(address initiator, address[] depositors, uint256 total);
+    event SplitInitiated(address initiator, uint256 total);
 
     // Event emitted when a depositer has sent tokens to the contract
     event DepositReceived(address sender, uint256 amount);
@@ -45,7 +47,7 @@ contract BillSplit is ReentrancyGuard {
     constructor (
         uint256 _totalAmount,
         address payable _initiator,
-        address payable[] _depositors,
+        address payable[] memory _depositors,
         address payable _deployer,
         address _tokenAddress
     ) {
@@ -62,7 +64,7 @@ contract BillSplit is ReentrancyGuard {
         tokenAddress = _tokenAddress;
     }
 
-    function initiateSplit(uint256 _initiatorAmt, uint256[] _depositorAmts) external OnlyInitiator {
+    function initiateSplit(uint256 _initiatorAmt, uint256[] memory _depositorAmts) external OnlyInitiator {
         uint256 depositorTotal = 0;
 
         initiatorAmt = _initiatorAmt;
@@ -79,20 +81,20 @@ contract BillSplit is ReentrancyGuard {
         // Transfer depositors tokens into contract
         token.transferFrom(deployer, address(this), initiatorAmt);
         require(token.balanceOf(address(this)) == initiatorAmt, "Initiators split not transferred");
-        emit SplitInitiated(initiator, depositors, totalAmount);
+        emit SplitInitiated(initiator, totalAmount);
     }
 
     function split() external OnlyDepositor {
 
         // Transfer depositors tokens into contract
-        token.transferFrom(deployer, address(this), depositorAmt);
+        token.transferFrom(deployer, address(this), depositorOwes[msg.sender]);
         
         // Assert account balance equals total
         uint256 balance = token.balanceOf(address(this));
         require(balance == totalAmount, "Funds not received from depositor");
 
         // Emit an event indicating the depositor has sent money to the initiator through the contract
-        emit DepositReceived(depositor, depositorAmt);
+        emit DepositReceived(msg.sender, depositorAmt);
     }
 
     function transferTotal() external OnlyInitiator {
