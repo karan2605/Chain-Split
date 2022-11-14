@@ -3,7 +3,7 @@ import logo from "../assets/logo.png";
 
 const SiteFooter = () => {
     return (
-        <Footer container={true} className="bg-stone-900">
+        <Footer container={true} className="bg-stone-800">
             <div className="w-full">
                 <div className="grid w-full justify-between sm:flex sm:justify-between md:flex">
                 <div className="flex flex-row">
@@ -19,16 +19,16 @@ const SiteFooter = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6">
                     <div>
-                    <Footer.Title title="about" className="text-purple-600"/>
+                    <Footer.Title title="about" className="text-white"/>
                     <Footer.LinkGroup col={true}>
-                        <Footer.Link href="#" className="text-purple-600">
+                        <Footer.Link href="#" className="text-white">
                         ChainSplit
                         </Footer.Link>
                     </Footer.LinkGroup>
                     </div>
                     <div>
-                    <Footer.Title title="Follow us" className="text-purple-600"/>
-                    <Footer.LinkGroup col={true} className="text-purple-600">
+                    <Footer.Title title="Follow us" className="text-white"/>
+                    <Footer.LinkGroup col={true} className="text-white">
                         <Footer.Link href="#">
                         Github
                         </Footer.Link>
@@ -38,8 +38,8 @@ const SiteFooter = () => {
                     </Footer.LinkGroup>
                     </div>
                     <div>
-                    <Footer.Title title="Legal" className="text-purple-600"/>
-                    <Footer.LinkGroup col={true} className="text-purple-600">
+                    <Footer.Title title="Legal" className="text-white"/>
+                    <Footer.LinkGroup col={true} className="text-white">
                         <Footer.Link href="#">
                         Privacy Policy
                         </Footer.Link>
@@ -55,7 +55,7 @@ const SiteFooter = () => {
                 <Footer.Copyright
                     href="#"
                     by="ChainSplit™"
-                    className="text-purple-600"
+                    className="text-white"
                     year={2022}
                 />
                 </div>
