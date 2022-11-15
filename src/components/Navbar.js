@@ -15,7 +15,7 @@ const NavigationBar = () => {
             className="mr-3 h-6 sm:h-9 rounded-lg"
             alt="Logo"
           />
-          <span className="self-center text-4xl font-bold text-purple-600 py-3">
+          <span className="self-center text-4xl font-bold text-white py-3">
             ChainSplit
           </span>
         </Navbar.Brand>

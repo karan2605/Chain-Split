@@ -12,7 +12,7 @@ const SiteFooter = () => {
                     className="mr-3 h-6 sm:h-9 rounded-lg"
                     alt="ChainSplit Logo"
                     />
-                    <span className="text-4xl font-bold text-purple-600">
+                    <span className="text-4xl font-bold text-white">
                         ChainSplit
                     </span>
 
