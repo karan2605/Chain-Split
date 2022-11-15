@@ -1,5 +1,7 @@
 # ChainSplit
 
+![ChainSplit Logo](ChainSplitLogo.png)
+
 Bill Splitting website using Solidity smart contracts on the Ethereum blockchain.
 
 ## Technology Stack & Tools
