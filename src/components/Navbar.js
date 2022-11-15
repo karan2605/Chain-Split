@@ -7,7 +7,7 @@ const NavigationBar = () => {
     return (
         <Navbar
         className="bg-stone-800 py-2"
-        fluid={true}
+        
       >
         <Navbar.Brand>
           <img
