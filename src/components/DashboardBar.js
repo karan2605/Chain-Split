@@ -24,7 +24,7 @@ const DashboardBar = () => {
             </Navbar.Brand>
             <div className="flex text-xl gap-4 items-center">
                 <Avatar />
-                <Badge size="lg" color="dark" className={"text-white bg-gradient-to-r from-blue-600 to-fuchsia-600"}>
+                <Badge size="lg" color="dark" className={"text-white bg-gradient-to-r from-blue-600 to-fuchsia-600 font-mono"}>
                     0x213ef...j2nk
                 </Badge>
                 <Badge color="success" size="lg" >
