@@ -10,7 +10,7 @@ const DashboardBar = () => {
         <Navbar
             fluid={true}
             rounded={true}
-            className="bg-stone-800"
+            className="bg-stone-800 gap-4"
             >
             <Navbar.Brand>
             <img
@@ -23,12 +23,12 @@ const DashboardBar = () => {
             </span>
             </Navbar.Brand>
             <div className="flex text-xl gap-4 items-center">
+                <Button size="2xl" gradientMonochrome="success" className={"text-2xl py-2 px-3"}>
+                    Start a New Split
+                </Button>
                 <Avatar />
                 <Badge size="lg" color="dark" className={"text-white bg-gradient-to-r from-blue-600 to-fuchsia-600 font-mono"}>
                     0x213ef...j2nk
-                </Badge>
-                <Badge color="success" size="lg" >
-                    Connected
                 </Badge>
                 <Button size="2xl" color="failure" className={"text-2xl py-2 px-3"}>
                     Disconnect
