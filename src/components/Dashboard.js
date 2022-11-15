@@ -6,8 +6,9 @@ const Dashboard = () => {
     return (
         <div className="flex flex-col">
             <DashboardBar />
-            <div className="grid grid-rows-3 grid-cols-3 h-screen bg-stone-900">
+            <div className="grid grid-rows-3 grid-cols-4 h-screen bg-stone-900">
                 <DashboardSidebar />
+                
             </div>
             <SiteFooter/>
         </div>
