@@ -6,15 +6,15 @@ import { HiClipboard } from "react-icons/hi2";
 
 const DashboardSidebar = () => {
     return (
-        <Sidebar className="w-fit row-span-3 bg-stone-800 text-4xl">
-            <Sidebar.Items className="bg-stone-800">
-                <Sidebar.ItemGroup className="bg-stone-800">
+        <Sidebar className={"w-fit row-span-3 text-4xl"}>
+            <Sidebar.Items>
+                <Sidebar.ItemGroup>
                     <Sidebar.Item
                     href="#"
                     className="text-2xl text-white"
                     icon={HiHome}
                     >
-                    Dashboard
+                    <h1 className="text-2xl text-white">Dashboard</h1>
                     </Sidebar.Item>
                     <Sidebar.Item
                     href="#"
@@ -28,14 +28,14 @@ const DashboardSidebar = () => {
                     className="text-2xl text-white"
                     icon={HiUserGroup}
                     >
-                    Groups
+                    <h1 className="text-2xl text-white">Groups</h1>
                     </Sidebar.Item>
                     <Sidebar.Item
                     href="#"
                     className="text-2xl text-white"
                     icon={HiClipboard}
                     >
-                    Split History
+                    <h1 className="text-2xl text-white">Split History</h1>
                     </Sidebar.Item>
                 </Sidebar.ItemGroup>
             </Sidebar.Items>
