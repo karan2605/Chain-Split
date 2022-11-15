@@ -1,4 +1,5 @@
 import { Card } from "flowbite-react/lib/cjs/components/Card/Card";
+import { Badge } from "flowbite-react/lib/cjs/components/Badge/Badge";
 
 const Friends = () => {
     return (
@@ -30,13 +31,10 @@ const Friends = () => {
                             <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
                                 Neil Sims
                             </p>
-                            <p className="truncate text-lg text-gray-500 dark:text-gray-400">
-                                email@windster.com
-                            </p>
                             </div>
-                            <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                            $320
-                            </div>
+                            <Badge color="purple" size="lg">
+                                0x213ef...j2nk
+                            </Badge>
                         </div>
                         </li>
                         <li className="py-3 sm:py-4">
@@ -52,13 +50,10 @@ const Friends = () => {
                             <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
                                 Bonnie Green
                             </p>
-                            <p className="truncate text-lg text-gray-500 dark:text-gray-400">
-                                email@windster.com
-                            </p>
                             </div>
-                            <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                            $3467
-                            </div>
+                            <Badge color="purple" size="lg">
+                                0x213ef...j2nk
+                            </Badge>
                         </div>
                         </li>
                         <li className="py-3 sm:py-4">
@@ -74,13 +69,10 @@ const Friends = () => {
                             <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
                                 Michael Gough
                             </p>
-                            <p className="truncate text-lg text-gray-500 dark:text-gray-400">
-                                email@windster.com
-                            </p>
                             </div>
-                            <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                            $67
-                            </div>
+                            <Badge color="purple" size="lg">
+                                0x213ef...j2nk
+                            </Badge>
                         </div>
                         </li>
                         <li className="py-3 sm:py-4">
@@ -96,13 +88,10 @@ const Friends = () => {
                             <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
                                 Lana Byrd
                             </p>
-                            <p className="truncate text-lg text-gray-500 dark:text-gray-400">
-                                email@windster.com
-                            </p>
                             </div>
-                            <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                            $367
-                            </div>
+                            <Badge color="purple" size="lg">
+                                0x213ef...j2nk
+                            </Badge>
                         </div>
                         </li>
                     </ul>
