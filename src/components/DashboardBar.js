@@ -1,5 +1,6 @@
 import { Navbar } from "flowbite-react/lib/cjs/components/Navbar/Navbar";
 import { Button } from "flowbite-react/lib/cjs/components/Button/Button";
+import { Badge } from "flowbite-react/lib/cjs/components/Badge/Badge";
 
 import logo from "../assets/logo.png";
 
@@ -20,13 +21,18 @@ const DashboardBar = () => {
                 ChainSplit
             </span>
             </Navbar.Brand>
-            <div className="flex md:order-2 text-xl">
-                <Button size="xl" color="failure">
-                Disconnect
+            <div className="flex text-xl gap-4 items-center">
+                <Badge size="lg" color="dark" className={"text-white bg-gradient-to-r from-blue-600 to-fuchsia-600"}>
+                    0x213ef...j2nk
+                </Badge>
+                <Badge color="success" size="lg" >
+                    Connected
+                </Badge>
+                <Button size="2xl" color="failure" className={"text-2xl py-2 px-3"}>
+                    Disconnect
                 </Button>
-                <Navbar.Toggle />
             </div>
-            </Navbar>
+        </Navbar>
     )
 }
 
