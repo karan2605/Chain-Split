@@ -1,12 +1,15 @@
 import DashboardSidebar from "./DashboardSidebar"; 
 import DashboardBar from "./DashboardBar";
+import SiteFooter from "./SiteFooter";
 
 const Dashboard = () => {
     return (
-        <div className="flex flex-col bg-stone-700">
+        <div className="flex flex-col">
             <DashboardBar />
-            <DashboardSidebar className="bg-stone-800"/>
-
+            <div className="grid grid-rows-3 grid-cols-3 h-screen bg-stone-900">
+                <DashboardSidebar />
+            </div>
+            <SiteFooter/>
         </div>
     )
 }
