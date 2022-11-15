@@ -1,6 +1,7 @@
 import { Navbar } from "flowbite-react/lib/cjs/components/Navbar/Navbar";
 import { Button } from "flowbite-react/lib/cjs/components/Button/Button";
 import { Badge } from "flowbite-react/lib/cjs/components/Badge/Badge";
+import { Avatar } from "flowbite-react/lib/cjs/components/Avatar/Avatar";
 
 import logo from "../assets/logo.png";
 
@@ -22,6 +23,7 @@ const DashboardBar = () => {
             </span>
             </Navbar.Brand>
             <div className="flex text-xl gap-4 items-center">
+                <Avatar />
                 <Badge size="lg" color="dark" className={"text-white bg-gradient-to-r from-blue-600 to-fuchsia-600"}>
                     0x213ef...j2nk
                 </Badge>
