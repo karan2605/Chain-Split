@@ -13,6 +13,7 @@ const DashboardSidebar = () => {
                     href="#"
                     className="text-2xl text-white"
                     icon={HiHome}
+                    active={true}
                     >
                     <h1 className="text-2xl text-white">Dashboard</h1>
                     </Sidebar.Item>
