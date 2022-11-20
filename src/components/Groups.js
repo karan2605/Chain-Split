@@ -15,17 +15,16 @@ const Groups = () => {
         <div className="flex flex-row h-screen bg-stone-900 px-20 py-20 w-full justify-center col-span-2">
           <Card
             className={
-              "grid grid-flow-col dark:border-4 dark:border-purple-600 dark:bg-stone-900 w-1/2"
+              "grid dark:border-4 dark:border-purple-600 dark:bg-stone-900 w-1/2"
             }
           >
-            <h1 className="text-4xl font-bold leading-none text-gray-900 dark:text-white self-start">
+            <h1 className="text-6xl font-bold text-white">
               Groups
             </h1>
             <Accordion
               arrowIcon={HiOutlineArrowCircleDown}
               alwaysOpen={false}
-              className={"text-xl"}
-            >
+              className={"text-xl"}>
               <Accordion.Panel>
                 <Accordion.Title className={"font-bold"}>
                   Group 1
