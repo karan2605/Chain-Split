@@ -6,6 +6,7 @@ import App from "./App";
 import Dashboard from "./components/Dashboard";
 import Friends from "./components/Friends";
 import Groups from "./components/Groups";
+import SplitHistory from "./components/SplitHistory";
 
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -19,6 +20,7 @@ root.render(
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/friends" element={<Friends />} />
         <Route path="/groups" element={<Groups />} />
+        <Route path="/history" element={<SplitHistory />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
