@@ -26,7 +26,7 @@ const DashboardSidebar = (active) => {
                     <h1 className="text-2xl text-white">Friends</h1>
                     </Sidebar.Item>
                     <Sidebar.Item
-                    href="#"
+                    href="/groups"
                     className="text-2xl text-white"
                     icon={HiUserGroup}
                     >
