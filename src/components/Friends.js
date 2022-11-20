@@ -17,7 +17,7 @@ const Friends = () => {
             }
           >
             <div className="flex flex-col justify-between">
-                <h1 className="text-4xl font-bold leading-none text-gray-900 dark:text-white justify-start">
+                <h1 className="text-6xl font-bold leading-none text-gray-900 dark:text-white justify-start">
                     Friends
                 </h1>
               <div className="flow-root">
