@@ -1,11 +1,21 @@
+import React, { useState } from 'react';
+
 import { Navbar } from "flowbite-react/lib/cjs/components/Navbar/Navbar";
 import { Button } from "flowbite-react/lib/cjs/components/Button/Button";
 import { Badge } from "flowbite-react/lib/cjs/components/Badge/Badge";
 import { Avatar } from "flowbite-react/lib/cjs/components/Avatar/Avatar";
 
+import NewSplit from "./NewSplit";
+
 import logo from "../assets/logo.png";
 
 const DashboardBar = () => {
+  const [visible, setVisible] = useState(false);
+
+  const toggle = () => {
+    visible ? setVisible(false) : setVisible(true)
+  }
+
   return (
     <Navbar fluid={true} rounded={true} className="bg-stone-800 gap-4">
       <Navbar.Brand>
@@ -19,9 +29,11 @@ const DashboardBar = () => {
           size="2xl"
           gradientMonochrome="success"
           className={"text-2xl py-2 px-3"}
+          onClick={() => toggle()}
         >
           Start a New Split
         </Button>
+        {visible && <NewSplit toggle={toggle}/> }
         <Avatar />
         <Badge
           size="lg"
