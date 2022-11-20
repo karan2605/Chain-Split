@@ -3,14 +3,15 @@ import { HiHome } from "react-icons/hi2/";
 import { HiUserGroup } from "react-icons/hi2";
 import { HiUsers } from "react-icons/hi2";
 import { HiClipboard } from "react-icons/hi2";
+import { Link } from "react-router-dom";
 
-const DashboardSidebar = () => {
+const DashboardSidebar = (active) => {
     return (
         <Sidebar className={"w-fit row-span-3 text-4xl"}>
             <Sidebar.Items>
                 <Sidebar.ItemGroup>
                     <Sidebar.Item
-                    href="#"
+                    href="/dashboard"
                     className="text-2xl text-white"
                     icon={HiHome}
                     active={true}
@@ -18,7 +19,7 @@ const DashboardSidebar = () => {
                     <h1 className="text-2xl text-white">Dashboard</h1>
                     </Sidebar.Item>
                     <Sidebar.Item
-                    href="#"
+                    href="/friends"
                     className=""
                     icon={HiUsers}
                     >
