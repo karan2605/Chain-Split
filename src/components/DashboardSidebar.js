@@ -14,7 +14,6 @@ const DashboardSidebar = (active) => {
                     href="/dashboard"
                     className="text-2xl text-white"
                     icon={HiHome}
-                    active={true}
                     >
                     <h1 className="text-2xl text-white">Dashboard</h1>
                     </Sidebar.Item>
@@ -33,7 +32,7 @@ const DashboardSidebar = (active) => {
                     <h1 className="text-2xl text-white">Groups</h1>
                     </Sidebar.Item>
                     <Sidebar.Item
-                    href="#"
+                    href="/history"
                     className="text-2xl text-white"
                     icon={HiClipboard}
                     >
