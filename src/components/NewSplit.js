@@ -1,6 +1,4 @@
-import { Modal } from "flowbite-react/lib/cjs/components/Modal";
-import { Button } from "flowbite-react/lib/cjs/components/Button/Button";
-import { Label, Checkbox, TextInput, Dropdown } from "flowbite-react";
+import { Label, TextInput, Dropdown, Button, Modal } from "flowbite-react";
 
 const NewSplit = ({ toggle }) => {
   return (
