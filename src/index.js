@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+
 import App from './App';
 import Dashboard from './components/Dashboard';
+import Friends from './components/Friends';
+
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -13,6 +16,7 @@ root.render(
       <Routes>
         <Route path='/home' element={<App />} />
         <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/friends' element={<Friends />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
