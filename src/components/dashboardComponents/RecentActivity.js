@@ -1,6 +1,7 @@
 import { Card } from "flowbite-react/lib/cjs/components/Card/Card";
 import { Table } from "flowbite-react/lib/cjs/components/Table/Table";
 import { Badge } from "flowbite-react/lib/cjs/components/Badge/Badge";
+import { Link } from "react-router-dom";
 
 const RecentActivity = () => {
     return (
@@ -10,12 +11,9 @@ const RecentActivity = () => {
                     <h1 className="text-4xl font-bold leading-none text-gray-900 dark:text-white">
                         Recent Activity
                     </h1>
-                    <a
-                        href="/history"
-                        className="text-xl font-bold hover:underline dark:text-purple-600"
-                    >
+                    <Link to="/history" className="text-xl font-bold hover:underline dark:text-purple-600">
                         View all
-                    </a>
+                    </Link>
                 </div>
                 <Table striped={true} className="text-md">
                     <Table.Head className={"text-lg"}>

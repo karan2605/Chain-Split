@@ -1,5 +1,6 @@
 import { Card } from "flowbite-react/lib/cjs/components/Card/Card";
 import { Badge } from "flowbite-react/lib/cjs/components/Badge/Badge";
+import { Link } from "react-router-dom";
 
 const Friends = () => {
     return (
@@ -9,12 +10,9 @@ const Friends = () => {
                     <h1 className="text-4xl font-bold leading-none text-gray-900 dark:text-white">
                         Friends
                     </h1>
-                    <a
-                        href="/"
-                        className="text-xl font-bold hover:underline dark:text-purple-600"
-                    >
+                    <Link to="/history" className="text-xl font-bold hover:underline dark:text-purple-600">
                         View all
-                    </a>
+                    </Link>
                 </div>
                 <div className="flow-root">
                     <ul className="divide-y divide-gray-200 dark:divide-gray-700">
