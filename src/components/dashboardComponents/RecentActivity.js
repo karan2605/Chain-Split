@@ -11,14 +11,14 @@ const RecentActivity = () => {
                         Recent Activity
                     </h1>
                     <a
-                        href="/"
+                        href="/history"
                         className="text-xl font-bold hover:underline dark:text-purple-600"
                     >
                         View all
                     </a>
                 </div>
                 <Table striped={true} className="text-md">
-                    <Table.Head>
+                    <Table.Head className={"text-lg"}>
                         <Table.HeadCell>
                         From
                         </Table.HeadCell>
@@ -54,7 +54,7 @@ const RecentActivity = () => {
                             href="/tables"
                             className="font-medium text-blue-600 hover:underline dark:text-blue-500"
                             >
-                            View TxN
+                            TxN
                             </a>
                         </Table.Cell>
                         </Table.Row>
@@ -77,7 +77,7 @@ const RecentActivity = () => {
                             href="/tables"
                             className="font-medium text-blue-600 hover:underline dark:text-blue-500"
                             >
-                            View TxN
+                            TxN
                             </a>
                         </Table.Cell>
                         </Table.Row>
@@ -100,7 +100,7 @@ const RecentActivity = () => {
                             href="/tables"
                             className="font-medium text-blue-600 hover:underline dark:text-blue-500"
                             >
-                            View TxN
+                            TxN
                             </a>
                         </Table.Cell>
                         </Table.Row>
@@ -123,7 +123,7 @@ const RecentActivity = () => {
                             href="/tables"
                             className="font-medium text-blue-600 hover:underline dark:text-blue-500"
                             >
-                            View TxN
+                            TxN
                             </a>
                         </Table.Cell>
                         </Table.Row>
@@ -146,7 +146,7 @@ const RecentActivity = () => {
                             href="/tables"
                             className="font-medium text-blue-600 hover:underline dark:text-blue-500"
                             >
-                            View TxN
+                            TxN
                             </a>
                         </Table.Cell>
                         </Table.Row>

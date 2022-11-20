@@ -12,14 +12,14 @@ const PendingSplits = () => {
                         Pending Splits
                     </h1>
                     <a
-                        href="/"
+                        href="/groups"
                         className="text-xl font-bold hover:underline dark:text-purple-600"
                     >
                         View all
                     </a>
                 </div>
                 <Table striped={true} className="text-md">
-                    <Table.Head>
+                    <Table.Head className={"text-lg"}>
                         <Table.HeadCell>
                         Group
                         </Table.HeadCell>
