@@ -7,6 +7,7 @@ import Dashboard from "./components/Dashboard";
 import Friends from "./components/Friends";
 import Groups from "./components/Groups";
 import SplitHistory from "./components/SplitHistory";
+import CreateAccount from "./components/CreateAccount";
 
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -21,6 +22,7 @@ root.render(
         <Route path="/friends" element={<Friends />} />
         <Route path="/groups" element={<Groups />} />
         <Route path="/history" element={<SplitHistory />} />
+        <Route path="/createAccount" element={<CreateAccount />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
