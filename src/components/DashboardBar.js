@@ -27,6 +27,14 @@ const DashboardBar = () => {
       <div className="flex text-xl gap-4 items-center">
         <Button
           size="2xl"
+          gradientMonochrome="purple"
+          className={"text-2xl py-2 px-3"}
+          onClick={() => toggle()}
+        >
+          Add Friends
+        </Button>
+        <Button
+          size="2xl"
           gradientMonochrome="success"
           className={"text-2xl py-2 px-3"}
           onClick={() => toggle()}
