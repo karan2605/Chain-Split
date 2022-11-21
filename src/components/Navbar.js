@@ -19,7 +19,7 @@ const NavigationBar = () => {
           </span>
         </Navbar.Brand>
         <div className="flex md:order-2 text-4xl gap-4">
-          <Button gradientDuoTone="purpleToPink" size="lg" className="font-mono font-semibold">
+          <Button gradientDuoTone="purpleToPink" size="lg" className="font-mono font-semibold" href="/createAccount">
             Create an Account
           </Button>
           <Navbar.Toggle />
