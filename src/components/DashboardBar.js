@@ -6,14 +6,20 @@ import { Badge } from "flowbite-react/lib/cjs/components/Badge/Badge";
 import { Avatar } from "flowbite-react/lib/cjs/components/Avatar/Avatar";
 
 import NewSplit from "./NewSplit";
+import AddFriend from "./AddFriend";
 
 import logo from "../assets/logo.png";
 
 const DashboardBar = () => {
   const [visible, setVisible] = useState(false);
+  const [friend, setFriend] = useState(false);
 
   const toggle = () => {
     visible ? setVisible(false) : setVisible(true)
+  }
+
+  const toggleFriend = () => {
+    friend ? setFriend(false) : setFriend(true)
   }
 
   return (
@@ -29,10 +35,11 @@ const DashboardBar = () => {
           size="2xl"
           gradientMonochrome="purple"
           className={"text-2xl py-2 px-3"}
-          onClick={() => toggle()}
+          onClick={() => toggleFriend()}
         >
           Add Friends
         </Button>
+        {friend && <AddFriend toggle={toggleFriend} /> }
         <Button
           size="2xl"
           gradientMonochrome="success"
