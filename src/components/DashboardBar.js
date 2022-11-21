@@ -31,6 +31,16 @@ const DashboardBar = () => {
         </span>
       </Navbar.Brand>
       <div className="flex text-xl gap-4 items-center">
+      <Avatar />
+        <Badge
+          size="lg"
+          color="dark"
+          className={
+            "text-white bg-gradient-to-r from-blue-600 to-fuchsia-600 font-mono"
+          }
+        >
+          0x213ef...j2nk
+        </Badge>
         <Button
           size="2xl"
           gradientMonochrome="purple"
@@ -49,16 +59,6 @@ const DashboardBar = () => {
           Start a New Split
         </Button>
         {visible && <NewSplit toggle={toggle}/> }
-        <Avatar />
-        <Badge
-          size="lg"
-          color="dark"
-          className={
-            "text-white bg-gradient-to-r from-blue-600 to-fuchsia-600 font-mono"
-          }
-        >
-          0x213ef...j2nk
-        </Badge>
         <Button size="2xl" color="failure" className={"text-2xl py-2 px-3"}>
           Disconnect
         </Button>
