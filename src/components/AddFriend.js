@@ -1,4 +1,4 @@
-import { Label, TextInput, Dropdown, Button, Modal } from "flowbite-react";
+import { Label, TextInput, Button, Modal } from "flowbite-react";
 
 const AddFriend = ({ toggle }) => {
   return (
