@@ -1,9 +1,22 @@
+import { ethers } from 'ethers';
+
+import { useNavigate } from "react-router-dom";
+
 import { Navbar } from "flowbite-react/lib/cjs/components/Navbar";
 import { Button } from "flowbite-react/lib/cjs/components/Button";
 
 import logo from "../assets/logo.png";
 
-const NavigationBar = () => {
+const NavigationBar = ({setAccount}) => {
+  let navigate = useNavigate(); 
+
+  const connectHandler = async () => {
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const account = ethers.utils.getAddress(accounts[0])
+    setAccount(account);
+    navigate("/dashboard");
+  }
+
   return (
     <Navbar className="bg-stone-800 py-2">
       <Navbar.Brand>
@@ -26,6 +39,7 @@ const NavigationBar = () => {
           gradientDuoTone="purpleToBlue"
           size="lg"
           className="font-mono font-semibold"
+          onClick={connectHandler}
         >
           <svg
             className="h-4"
