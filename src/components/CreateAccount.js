@@ -1,17 +1,23 @@
 import NavigationBar from "./Navbar";
 import SiteFooter from "./SiteFooter";
 
-import { Button, Label, TextInput, Checkbox, Card } from "flowbite-react";
+import {
+  Button,
+  Label,
+  TextInput,
+  Card,
+  FileInput,
+} from "flowbite-react";
 
 const CreateAccount = () => {
   return (
     <div className="flex flex-col bg-stone-800 ">
       <NavigationBar />
 
-      <div class="h-full bg-stone-800 px-40 py-20">
+      <div class="flex h-full bg-stone-800 py-40 justify-center">
         <Card
           className={
-            "dark:border-4 dark:border-purple-600 dark:bg-stone-900 place-content-center"
+            "dark:border-4 dark:border-purple-600 dark:bg-stone-900"
           }
         >
           <h1 className="text-3xl font-bold text-white py-3">
@@ -20,24 +26,22 @@ const CreateAccount = () => {
           <form className="flex flex-col gap-4">
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="email1" value="Your email" />
+                <Label htmlFor="account" value="Account" />
               </div>
               <TextInput
-                id="email1"
-                type="email"
-                placeholder="name@flowbite.com"
+                id="account"
+                type="text"
                 required={true}
               />
             </div>
-            <div>
+            <div id="fileUpload">
               <div className="mb-2 block">
-                <Label htmlFor="password1" value="Your password" />
+                <Label htmlFor="file" value="Upload Profile Picture" />
               </div>
-              <TextInput id="password1" type="password" required={true} />
-            </div>
-            <div className="flex items-center gap-2">
-              <Checkbox id="remember" />
-              <Label htmlFor="remember">Remember me</Label>
+              <FileInput
+                id="file"
+                required={true}
+              />
             </div>
             <Button type="submit">Submit</Button>
           </form>
