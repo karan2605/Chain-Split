@@ -17,7 +17,6 @@ contract BillSplit is ReentrancyGuard {
     mapping(address => uint) public depositorOwes;
     mapping(address => bool) private depositorExists;
     address public deployer;
-    address private tokenAddress;
 
     ERC20 public token;
 
@@ -46,10 +45,9 @@ contract BillSplit is ReentrancyGuard {
     // Event emitted when the split has been completed
     event SplitCompleted(address initiator, uint256 totalAmount);
 
-    constructor(address payable _deployer, address _tokenAddress) {
-        deployer = _deployer;
+    constructor(address _tokenAddress) {
+        deployer = _tokenAddress;
         token = ERC20(_tokenAddress);
-        tokenAddress = _tokenAddress;
     }
 
     function initiateSplit(
