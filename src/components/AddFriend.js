@@ -14,7 +14,7 @@ const AddFriend = ({ toggle }) => {
           </div>
           <div>
             <div className="mb-2 block">
-              <Label htmlFor="accHash" value="Account Hash" />
+              <Label htmlFor="accHash" value="Public Key" />
             </div>
             <TextInput id="accHash" type="text" required={true} className={"font-mono"}/>
           </div>
