@@ -19,6 +19,11 @@ async function main() {
 
   console.log(`Deployed ERC20 Contract at : ${token.address}`)
 
+  const BillSplit = await ethers.getContractFactory("BillSplit")
+  const billSplit = await BillSplit.deploy(token.address)
+
+  console.log(`Deployed BillSplit Contract at : ${billSplit.address}`)
+  console.log(`Finished.`)
 
 }
 
