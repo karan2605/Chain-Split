@@ -114,6 +114,7 @@ contract BillSplit is ReentrancyGuard {
     }
 
     function transferTotal() external OnlyInitiator {
+        // TODO: Check contract balance is equal to total owed
         // Transfer account balance to initiator
         token.transfer(initiator, token.balanceOf(address(this)));
 
