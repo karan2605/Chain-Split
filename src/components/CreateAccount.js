@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import NavigationBar from "./Navbar";
 import SiteFooter from "./SiteFooter";
+import Dashboard from "./Dashboard";
 
 import {
   Button,
@@ -15,6 +16,7 @@ import {
 } from "flowbite-react";
 
 import { Web3Storage, File } from "web3.storage";
+import * as Name from 'w3name';
 
 const CreateAccount = () => {
   const [account, setAccount] = useState(null);
@@ -40,7 +42,6 @@ const CreateAccount = () => {
 
   const uploadFile = (event) => {
     let file = event.target.files[0];
-    console.log(file);
 
     if (file) {
       setFile(file);
@@ -49,16 +50,22 @@ const CreateAccount = () => {
 
   const uploadAccount = async (event) => {
     event.preventDefault();
-    console.log(file);
+    const name = await Name.create();
+    console.log(name.toString())
+
+    const imgHash = await storeFiles([file]);
 
     const data = new Blob(
       [
         JSON.stringify({
           account: account,
-          picture: file,
+          picture: imgHash,
           phoneNumber: event.target[2].value,
           friends: [],
           groups: {},
+          received: 0,
+          contributed: 0,
+          active: 0
         }),
       ],
       { type: "application/json" }
@@ -66,11 +73,14 @@ const CreateAccount = () => {
 
     const files = [new File([data], `${account}.json`)];
 
-    storeFiles(files);
+    const cid = await storeFiles(files);
+    const revision = await Name.v0(name, cid);
+    await Name.publish(revision, name.key);
 
     navigate("/dashboard");
 
     return (
+      <>
       <Alert
         color="success"
         onDismiss={function onDismiss() {
@@ -81,6 +91,7 @@ const CreateAccount = () => {
           <span className="font-medium">Account Created!</span> 
         </span>
       </Alert>
+      </>
     );
   };
 
