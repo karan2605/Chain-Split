@@ -11,7 +11,7 @@ import Stats from "./dashboardComponents/Stats";
 
 import { Web3Storage, File } from "web3.storage";
 
-const Dashboard = () => {
+const Dashboard = ({cid}) => {
   const [account, setAccount] = useState(null)
 
   function getAccessToken() {
@@ -22,17 +22,16 @@ const Dashboard = () => {
     return new Web3Storage({ token: getAccessToken() });
   }
 
-  async function retrieve (cid) {
+  async function retrieve () {
+    console.log(cid)
     const client = makeStorageClient()
     const res = await client.get(cid)
     console.log(`Got a response! [${res.status}] ${res.statusText}`)
     if (!res.ok) {
       throw new Error(`failed to get ${cid}`)
     }
-  
-    // request succeeded! do something with the response object here...
+    console.log(res)
   }
-
 
   const connectHandler = async () => {
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -42,6 +41,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     connectHandler()
+    retrieve()
   })
 
 
