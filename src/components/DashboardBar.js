@@ -59,9 +59,6 @@ const DashboardBar = ({account}) => {
           Start a New Split
         </Button>
         {visible && <NewSplit toggle={toggle}/> }
-        <Button size="2xl" color="failure" className={"text-2xl py-2 px-3"}>
-          Disconnect
-        </Button>
       </div>
     </Navbar>
   );
