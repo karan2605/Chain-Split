@@ -10,7 +10,7 @@ import AddFriend from "./AddFriend";
 
 import logo from "../assets/logo.png";
 
-const DashboardBar = () => {
+const DashboardBar = ({account}) => {
   const [visible, setVisible] = useState(false);
   const [friend, setFriend] = useState(false);
 
@@ -39,7 +39,7 @@ const DashboardBar = () => {
             "text-white bg-gradient-to-r from-blue-600 to-fuchsia-600 font-mono"
           }
         >
-          0x213ef...j2nk
+          {account && account.slice(0, 5) + '...' + account.slice(38, 42)}
         </Badge>
         <Button
           size="2xl"
