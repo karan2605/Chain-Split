@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 import NavigationBar from "./Navbar";
 import SiteFooter from "./SiteFooter";
-import Dashboard from "./Dashboard";
 
 import {
   Button,
@@ -18,7 +17,7 @@ import {
 import { Web3Storage, File } from "web3.storage";
 import * as Name from 'w3name';
 
-const CreateAccount = () => {
+const CreateAccount = ({ globalData, globalcid }) => {
   const [account, setAccount] = useState(null);
   const [file, setFile] = useState(null);
 
@@ -76,6 +75,9 @@ const CreateAccount = () => {
     const cid = await storeFiles(files);
     const revision = await Name.v0(name, cid);
     await Name.publish(revision, name.key);
+
+    globalData = data
+    globalcid = cid
 
     navigate("/dashboard");
 
