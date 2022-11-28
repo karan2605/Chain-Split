@@ -3,28 +3,12 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 
 import App from "./App";
-import Dashboard from "./components/Dashboard";
-import Friends from "./components/Friends";
-import Groups from "./components/Groups";
-import SplitHistory from "./components/SplitHistory";
-import CreateAccount from "./components/CreateAccount";
-
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/home" element={<App />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/friends" element={<Friends />} />
-        <Route path="/groups" element={<Groups />} />
-        <Route path="/history" element={<SplitHistory />} />
-        <Route path="/createAccount" element={<CreateAccount />} />
-      </Routes>
-    </BrowserRouter>
+    <App />
   </React.StrictMode>
 );
 
