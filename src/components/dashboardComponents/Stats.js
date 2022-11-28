@@ -1,6 +1,6 @@
 import { Card } from "flowbite-react/lib/cjs/components/Card/Card";
 
-const Stats = () => {
+const Stats = ({ data }) => {
   return (
     <Card
       className={
@@ -14,7 +14,7 @@ const Stats = () => {
               Total Received
             </h5>
             <h1 className="text-5xl font-bold tracking-tight text-green-500">
-              0.5 ETH
+              {data.received} ETH
             </h1>
           </Card>
           <Card className={"h-96 text-center"}>
@@ -22,7 +22,7 @@ const Stats = () => {
               Total Contributed
             </h5>
             <h1 className="text-5xl font-bold tracking-tight text-red-600">
-              0.4 ETH
+              {data.contributed} ETH
             </h1>
           </Card>
           <Card className={"h-96 text-center"}>
@@ -30,7 +30,7 @@ const Stats = () => {
               Number of Active Splits
             </h5>
             <h1 className="text-5xl font-bold tracking-tight text-blue-500">
-              6
+              {data.active}
             </h1>
           </Card>
         </div>
