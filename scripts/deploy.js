@@ -21,11 +21,13 @@ async function main() {
 
   const BillSplit = await ethers.getContractFactory("BillSplit")
   const billSplit = await BillSplit.deploy(token.address)
+  await billSplit.deployed()
 
   console.log(`Deployed BillSplit Contract at : ${billSplit.address}`)
 
   const Account = await ethers.getContractFactory("Account")
   const account = await Account.deploy()
+  await account.deployed()
 
   console.log(`Deployed Account Contract at : ${account.address}`)
   console.log(`Finished.`)
