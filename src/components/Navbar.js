@@ -1,5 +1,3 @@
-import { ethers } from 'ethers';
-
 import { useNavigate } from "react-router-dom";
 
 import { Navbar } from "flowbite-react/lib/cjs/components/Navbar";
@@ -7,13 +5,10 @@ import { Button } from "flowbite-react/lib/cjs/components/Button";
 
 import logo from "../assets/logo.png";
 
-const NavigationBar = ({setAccount}) => {
+const NavigationBar = () => {
   let navigate = useNavigate(); 
 
   const connectHandler = async () => {
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    const account = ethers.utils.getAddress(accounts[0])
-    setAccount(account);
     navigate("/dashboard");
   }
 
