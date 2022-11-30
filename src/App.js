@@ -8,7 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 
 function App() {
-  const globalData = new Blob(
+  const globalData = new File(
     [
       JSON.stringify({
         account: null,
@@ -18,24 +18,39 @@ function App() {
         groups: {},
         received: 0,
         contributed: 0,
-        active: 0
+        active: 0,
       }),
     ],
-    { type: "application/json" }
+    "account.json"
   );
 
-  const cid = null
+  const cid = null;
 
   return (
     <div className="app">
       <BrowserRouter>
         <Routes>
           <Route path="/home" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard globalData={globalData} globalcid={cid}/>} />
-          <Route path="/friends" element={<Friends globalData={globalData} globalcid={cid} />} />
-          <Route path="/groups" element={<Groups globalData={globalData} globalcid={cid} />} />
-          <Route path="/history" element={<SplitHistory globalData={globalData} globalcid={cid} />} />
-          <Route path="/createAccount" element={<CreateAccount globalData={globalData} globalcid={cid} />} />
+          <Route
+            path="/dashboard"
+            element={<Dashboard globalData={globalData} globalcid={cid} />}
+          />
+          <Route
+            path="/friends"
+            element={<Friends globalData={globalData} />}
+          />
+          <Route
+            path="/groups"
+            element={<Groups globalData={globalData} />}
+          />
+          <Route
+            path="/history"
+            element={<SplitHistory globalData={globalData} />}
+          />
+          <Route
+            path="/createAccount"
+            element={<CreateAccount globalData={globalData} />}
+          />
         </Routes>
       </BrowserRouter>
     </div>
