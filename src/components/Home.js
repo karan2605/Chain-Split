@@ -8,7 +8,7 @@ import HomeInfo from "./HomeInfo";
 import NavigationBar from "./Navbar";
 
 const Home = () => {
-    const [account, setAccount] = useState(null);
+  const [account, setAccount] = useState(null);
 
   const loadBlockchainData = async () => {
     window.ethereum.on("accountsChanged", async () => {
