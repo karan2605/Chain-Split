@@ -10,7 +10,7 @@ import AddFriend from "./AddFriend";
 
 import logo from "../assets/logo.png";
 
-const DashboardBar = ({account}) => {
+const DashboardBar = ({ account, data }) => {
   const [visible, setVisible] = useState(false);
   const [friend, setFriend] = useState(false);
 
