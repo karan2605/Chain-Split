@@ -1,9 +1,9 @@
 import { ethers } from "ethers";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 import NavigationBar from "./Navbar";
 import SiteFooter from "./SiteFooter";
+import { useForm } from "react-hook-form";
 
 import {
   Button,
@@ -15,13 +15,16 @@ import {
 } from "flowbite-react";
 
 import { Web3Storage, File } from "web3.storage";
-import * as Name from 'w3name';
+
+import config from '../config.json';
+import Account from "../abis/Account.json"
 
 const CreateAccount = ({ globalData, globalcid }) => {
-  const [account, setAccount] = useState(null);
-  const [file, setFile] = useState(null);
-
-  let navigate = useNavigate();
+  const [account, setAccount] = useState(null)
+  const [file, setFile] = useState(null)
+  const [showAlert, setShowAlert] = useState(false)
+  const [provider, setProvider] = useState(null)
+  const { reset } = useForm()
 
   function getAccessToken() {
     return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGE0RjI0MjVkMGVGZjE5QmFFZDc1YzA3ZTNENEJiNDI4MTdiZDYzZGYiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NjkzNzA0NTA0NjIsIm5hbWUiOiJDaGFpblNwbGl0In0.IniPPZENlFLjDWi4_tAwgc67THksBDYTcSrCYR2kj28";
@@ -41,7 +44,6 @@ const CreateAccount = ({ globalData, globalcid }) => {
 
   const uploadFile = (event) => {
     let file = event.target.files[0];
-
     if (file) {
       setFile(file);
     }
@@ -49,14 +51,10 @@ const CreateAccount = ({ globalData, globalcid }) => {
 
   const uploadAccount = async (event) => {
     event.preventDefault();
-    const name = await Name.create();
-    console.log(name.toString())
 
     const imgHash = await storeFiles([file]);
 
-    const data = new Blob(
-      [
-        JSON.stringify({
+    const data = new Blob([JSON.stringify({
           account: account,
           picture: imgHash,
           phoneNumber: event.target[2].value,
@@ -65,36 +63,24 @@ const CreateAccount = ({ globalData, globalcid }) => {
           received: 0,
           contributed: 0,
           active: 0
-        }),
-      ],
-      { type: "application/json" }
-    );
+        })], { type: 'application/json' });
 
-    const files = [new File([data], `${account}.json`)];
+    const files = [new File([data], account+".json")];
 
     const cid = await storeFiles(files);
-    const revision = await Name.v0(name, cid);
-    await Name.publish(revision, name.key);
 
-    globalData = data
-    globalcid = cid
+    const prov = new ethers.providers.Web3Provider(window.ethereum)
+    setProvider(prov)
+    const network = await prov.getNetwork()
+    const acc = new ethers.Contract(config[network.chainId].Account.address, Account, provider)
 
-    navigate("/dashboard");
+    const signer = await provider.getSigner()
 
-    return (
-      <>
-      <Alert
-        color="success"
-        onDismiss={function onDismiss() {
-          return alert("Alert dismissed!");
-        }}
-      >
-        <span>
-          <span className="font-medium">Account Created!</span> 
-        </span>
-      </Alert>
-      </>
-    );
+    let transaction = await acc.connect(signer).setHash(cid)
+    await transaction.wait()
+
+    setShowAlert(true)
+    reset()
   };
 
   useEffect(() => {
@@ -111,6 +97,16 @@ const CreateAccount = ({ globalData, globalcid }) => {
   return (
     <div className="flex flex-col bg-stone-800 ">
       <NavigationBar />
+      {showAlert && <Alert
+        color="success"
+        onDismiss={function onDismiss() {
+          setShowAlert(false)
+        }}
+      >
+        <span>
+          <span className="font-medium">Account Created! You can now log in by connecting to MetaMask</span> 
+        </span>
+      </Alert> }
 
       <div className="flex h-full bg-stone-800 py-40 justify-center">
         <Card
