@@ -5,6 +5,8 @@ import NavigationBar from "./Navbar";
 import SiteFooter from "./SiteFooter";
 import { useForm } from "react-hook-form";
 
+import { makeStorageClient, UploadToIPFS, StoreFiles } from "./Utilities";
+
 import {
   Button,
   Label,
@@ -14,25 +16,14 @@ import {
   Alert,
 } from "flowbite-react";
 
-import { Web3Storage, File } from "web3.storage";
-
-import config from '../config.json';
-import Account from "../abis/Account.json"
-
 const CreateAccount = ({ globalData, globalcid }) => {
   const [account, setAccount] = useState(null)
   const [file, setFile] = useState(null)
   const [showAlert, setShowAlert] = useState(false)
-  const [provider, setProvider] = useState(null)
+
   const { reset } = useForm()
 
-  function getAccessToken() {
-    return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGE0RjI0MjVkMGVGZjE5QmFFZDc1YzA3ZTNENEJiNDI4MTdiZDYzZGYiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NjkzNzA0NTA0NjIsIm5hbWUiOiJDaGFpblNwbGl0In0.IniPPZENlFLjDWi4_tAwgc67THksBDYTcSrCYR2kj28";
-  }
-
-  function makeStorageClient() {
-    return new Web3Storage({ token: getAccessToken() });
-  }
+  makeStorageClient()
 
   const connectHandler = async () => {
     const accounts = await window.ethereum.request({
@@ -52,7 +43,7 @@ const CreateAccount = ({ globalData, globalcid }) => {
   const uploadAccount = async (event) => {
     event.preventDefault();
 
-    const imgHash = await storeFiles([file]);
+    const imgHash = await StoreFiles([file]);
 
     const data = new Blob([JSON.stringify({
           account: account,
@@ -65,19 +56,7 @@ const CreateAccount = ({ globalData, globalcid }) => {
           active: 0
         })], { type: 'application/json' });
 
-    const files = [new File([data], account+".json")];
-
-    const cid = await storeFiles(files);
-
-    const prov = new ethers.providers.Web3Provider(window.ethereum)
-    setProvider(prov)
-    const network = await prov.getNetwork()
-    const acc = new ethers.Contract(config[network.chainId].Account.address, Account, provider)
-
-    const signer = await provider.getSigner()
-
-    let transaction = await acc.connect(signer).setHash(cid)
-    await transaction.wait()
+    UploadToIPFS(account, data)
 
     setShowAlert(true)
     reset()
@@ -86,13 +65,6 @@ const CreateAccount = ({ globalData, globalcid }) => {
   useEffect(() => {
     connectHandler();
   });
-
-  async function storeFiles(files) {
-    const client = makeStorageClient();
-    const cid = await client.put(files);
-    console.log("stored files with cid:", cid);
-    return cid;
-  }
 
   return (
     <div className="flex flex-col bg-stone-800 ">
