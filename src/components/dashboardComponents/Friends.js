@@ -16,7 +16,7 @@ const Friends = ({ globalData }) => {
                 </div>
                 <div className="flow-root">
                     <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-                        {globalData.friends.map ((item, key) => {
+                        {globalData.friends && globalData.friends.map ((item, key) => {
                             return (
                             <li className="py-3 sm:py-4" key={key}>
                             <div className="flex items-center space-x-4">
