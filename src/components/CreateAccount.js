@@ -5,7 +5,7 @@ import NavigationBar from "./Navbar";
 import SiteFooter from "./SiteFooter";
 import { useForm } from "react-hook-form";
 
-import { makeStorageClient, UploadToIPFS, StoreFiles } from "./Utilities";
+import { UploadToIPFS, StoreFiles } from "./Utilities";
 
 import {
   Button,
@@ -22,8 +22,6 @@ const CreateAccount = ({ globalData, globalcid }) => {
   const [showAlert, setShowAlert] = useState(false)
 
   const { reset } = useForm()
-
-  makeStorageClient()
 
   const connectHandler = async () => {
     const accounts = await window.ethereum.request({
@@ -50,7 +48,7 @@ const CreateAccount = ({ globalData, globalcid }) => {
           picture: imgHash,
           phoneNumber: event.target[2].value,
           friends: [],
-          groups: {},
+          groups: [],
           received: 0,
           contributed: 0,
           active: 0
