@@ -68,9 +68,9 @@ const Dashboard = ({ globalData }) => {
         <DashboardSidebar />
         <div className="grid grid-rows-2 grid-cols-3 h-screen bg-stone-900 gap-6 px-20 py-20 w-full">
           <Stats globalData={globalData} />
-          <RecentActivity />
-          <Friends />
-          <PendingSplits />
+          <RecentActivity globalData={globalData}/>
+          <Friends globalData={globalData}/>
+          <PendingSplits globalData={globalData}/>
         </div>
       </div>
       <SiteFooter />
