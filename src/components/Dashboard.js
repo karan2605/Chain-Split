@@ -63,7 +63,7 @@ const Dashboard = ({ globalData }) => {
 
   return (
     <div className="flex flex-col">
-      <DashboardBar account={account} data={globalData} />
+      <DashboardBar account={account} globalData={globalData} />
       <div className="flex flex-row">
         <DashboardSidebar />
         <div className="grid grid-rows-2 grid-cols-3 h-screen bg-stone-900 gap-6 px-20 py-20 w-full">
