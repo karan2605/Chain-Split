@@ -64,7 +64,7 @@ const CreateAccount = ({ globalData, globalcid }) => {
 
   useEffect(() => {
     connectHandler();
-  });
+  },[]);
 
   return (
     <div className="flex flex-col bg-stone-800 ">
