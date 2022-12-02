@@ -115,6 +115,10 @@ contract BillSplit is ReentrancyGuard {
 
     function transferTotal() external OnlyInitiator {
         // TODO: Check contract balance is equal to total owed
+        require(
+            token.balanceOf(address(this)) == totalAmount,
+            "Funds are not ready to be collected yet"
+        );
         // Transfer account balance to initiator
         token.transfer(initiator, token.balanceOf(address(this)));
 
