@@ -1,19 +1,38 @@
 import {
   Label,
   TextInput,
-  Dropdown,
   Button,
   Modal,
-  Table,
-  Checkbox,
+  Table
 } from "flowbite-react";
 
+import { useState } from "react";
+
 const NewSplit = ({ toggle }) => {
+
+  const [values, setValues] = useState([])
+
+  const startSplit = async (event) => {
+    event.preventDefault()
+
+    const groupName = event.target[0].value
+    const total = event.target[1].value
+    const contribution = event.target[2].value
+
+    console.log(groupName, total, contribution, values)
+
+  }
+
+  const updateValues = (event) => {
+    console.log(event.target.id)
+    setValues(values => [...values, [event.target.id, event.target.value]])
+  }
+
   return (
     <Modal show={true} position="center" onClose={toggle} size="4xl">
       <Modal.Header>Start a New Split</Modal.Header>
       <Modal.Body>
-        <form className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" onSubmit={startSplit}>
           <div>
             <div className="mb-2 block">
               <Label htmlFor="groupName" value="Group Name" />
@@ -21,125 +40,11 @@ const NewSplit = ({ toggle }) => {
             <TextInput id="groupName" type="text" required={true} />
           </div>
           <div>
-            <Dropdown
-              label="Select Token"
-              dismissOnClick={false}
-              color="purple"
-            >
-              <Dropdown.Item className="flex gap-4">Token 1</Dropdown.Item>
-              <Dropdown.Item className="flex gap-4">Token 2</Dropdown.Item>
-              <Dropdown.Item className="flex gap-4">Token 3</Dropdown.Item>
-              <Dropdown.Item className="flex gap-4">Token 4</Dropdown.Item>
-              <Dropdown.Item className="flex gap-4">Token 5</Dropdown.Item>
-            </Dropdown>
-          </div>
-          <div>
-            <Table>
-              <Table.Head>
-                <Table.HeadCell>Friends</Table.HeadCell>
-                <Table.HeadCell>Select for this Split</Table.HeadCell>
-                <Table.HeadCell>Amount Required</Table.HeadCell>
-              </Table.Head>
-              <Table.Body className="divide-y">
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Friend 1
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Checkbox />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <TextInput
-                      id="amount"
-                      type="number"
-                      size="sm"
-                      required={true}
-                      placeholder="> 0"
-                      className="font-mono"
-                    />
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Friend 2
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Checkbox />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <TextInput
-                      id="amount"
-                      type="number"
-                      size="sm"
-                      required={true}
-                      placeholder="> 0"
-                      className="font-mono"
-                    />
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Friend 3
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Checkbox />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <TextInput
-                      id="amount"
-                      type="number"
-                      size="sm"
-                      required={true}
-                      placeholder="> 0"
-                      className="font-mono"
-                    />
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Friend 4
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Checkbox />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <TextInput
-                      id="amount"
-                      type="number"
-                      size="sm"
-                      required={true}
-                      placeholder="> 0"
-                      className="font-mono"
-                    />
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Friend 5
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Checkbox />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <TextInput
-                      id="amount"
-                      type="number"
-                      size="sm"
-                      required={true}
-                      placeholder="> 0"
-                      className="font-mono"
-                    />
-                  </Table.Cell>
-                </Table.Row>
-              </Table.Body>
-            </Table>
-          </div>
-          <div>
             <div className="mb-2 block">
-              <Label htmlFor="amount" value="Total Amount" />
+              <Label htmlFor="TotalAmount" value="Total Amount" />
             </div>
             <TextInput
-              id="amount"
+              id="TotalAmount"
               type="number"
               required={true}
               placeholder="> 0"
@@ -157,6 +62,91 @@ const NewSplit = ({ toggle }) => {
               placeholder=">= 0"
               className="font-mono"
             />
+          </div>
+          <div>
+            <Table>
+              <Table.Head>
+                <Table.HeadCell>Friends</Table.HeadCell>
+                <Table.HeadCell>Amount Required</Table.HeadCell>
+              </Table.Head>
+              <Table.Body className="divide-y">
+                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    Friend 1
+                  </Table.Cell>
+                  <Table.Cell>
+                    <TextInput
+                      id="Friend1"
+                      type="number"
+                      size="sm"
+                      placeholder="> 0"
+                      className="font-mono"
+                      onChange={updateValues}
+                    />
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    Friend 2
+                  </Table.Cell>
+                  <Table.Cell>
+                    <TextInput
+                      id="Friend2"
+                      type="number"
+                      size="sm"
+                      placeholder="> 0"
+                      className="font-mono"
+                      onChange={updateValues}
+                    />
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    Friend 3
+                  </Table.Cell>
+                  <Table.Cell>
+                    <TextInput
+                      id="Friend3"
+                      type="number"
+                      size="sm"
+                      placeholder="> 0"
+                      className="font-mono"
+                      onChange={updateValues}
+                    />
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    Friend 4
+                  </Table.Cell>
+                  <Table.Cell>
+                    <TextInput
+                      id="Friend4"
+                      type="number"
+                      size="sm"
+                      placeholder="> 0"
+                      className="font-mono"
+                      onChange={updateValues}
+                    />
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    Friend 5
+                  </Table.Cell>
+                  <Table.Cell>
+                    <TextInput
+                      id="Friend5"
+                      type="number"
+                      size="sm"
+                      placeholder="> 0"
+                      className="font-mono"
+                      onChange={updateValues}
+                    />
+                  </Table.Cell>
+                </Table.Row>
+              </Table.Body>
+            </Table>
           </div>
           <Button type="submit" color="purple">
             Confirm
