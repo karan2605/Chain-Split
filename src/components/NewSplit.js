@@ -1,36 +1,60 @@
-import {
-  Label,
-  TextInput,
-  Button,
-  Modal,
-  Table
-} from "flowbite-react";
+import { Label, TextInput, Button, Modal, Table, Alert } from "flowbite-react";
 
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { InitiateSplit, UploadToIPFS } from "./Utilities";
 
-const NewSplit = ({ toggle }) => {
+const NewSplit = ({ toggle, globalData, account }) => {
+  const [showAlert, setShowAlert] = useState(false);
+  const { reset } = useForm();
 
-  const [depositors, setDepositors] = useState([])
-  const [depositorAmts, setDepositorAmts] = useState([])
+  const [depositors, setDepositors] = useState([]);
+  const [depositorAmts, setDepositorAmts] = useState([]);
 
   const startSplit = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    const groupName = event.target[0].value
-    const total = event.target[1].value
-    const contribution = event.target[2].value
+    const groupName = event.target[0].value;
+    const total = event.target[1].value;
+    const contribution = event.target[2].value;
 
-    console.log(groupName, total, contribution, depositors, depositorAmts)
+    InitiateSplit(total, contribution, depositors, depositorAmts);
 
-  }
+    const groupJSON = JSON.stringify({
+      name: groupName,
+      total: total,
+      initiator: account,
+      initiatorAmt: contribution,
+      depositors: depositors,
+      depositorAmts: depositorAmts,
+    });
+
+    globalData.groups = [...globalData.groups, groupJSON];
+
+    UploadToIPFS(globalData);
+    setShowAlert(true);
+    reset();
+  };
 
   const updateValues = (event) => {
-    setDepositors(depositors => [...depositors, event.target.id])
-    setDepositorAmts(depositorAmts => [...depositorAmts, event.target.value])
-  }
+    setDepositors((depositors) => [...depositors, event.target.id]);
+    setDepositorAmts((depositorAmts) => [...depositorAmts, event.target.value]);
+  };
 
   return (
     <Modal show={true} position="center" onClose={toggle} size="4xl">
+      {showAlert && (
+        <Alert
+          color="success"
+          onDismiss={function onDismiss() {
+            setShowAlert(false);
+          }}
+        >
+          <span>
+            <span className="font-medium">Your split has been initiated!</span>
+          </span>
+        </Alert>
+      )}
       <Modal.Header>Start a New Split</Modal.Header>
       <Modal.Body>
         <form className="flex flex-col gap-4" onSubmit={startSplit}>
