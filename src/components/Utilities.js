@@ -2,6 +2,7 @@ import { Web3Storage, File } from "web3.storage";
 
 import config from '../config.json';
 import Account from "../abis/Account.json"
+import BillSplit from "../abis/BillSplit.json"
 
 import { ethers } from "ethers";
 import { useState } from "react";
@@ -37,7 +38,49 @@ const StoreFiles = async ({ files }) => {
     const cid = await client.put(files);
     console.log("stored files with cid:", cid);
     return cid;
-  }
+}
 
-export {UploadToIPFS, makeStorageClient, StoreFiles }
+const InitiateSplit = async ({ totalAmount, initiatorAmt, depositors, depositorAmts }) => {
+  const [provider, setProvider] = useState(null)
+  const prov = new ethers.providers.Web3Provider(window.ethereum)
+  setProvider(prov)
+
+  const network = await prov.getNetwork()
+  const acc = new ethers.Contract(config[network.chainId].BillSplit.address, BillSplit, provider)
+
+  const signer = await provider.getSigner()
+
+  let transaction = await acc.connect(signer).initiateSplit(totalAmount, provider, initiatorAmt, depositors, depositorAmts)
+  await transaction.wait()
+}
+
+const Split = async () => {
+  const [provider, setProvider] = useState(null)
+  const prov = new ethers.providers.Web3Provider(window.ethereum)
+  setProvider(prov)
+
+  const network = await prov.getNetwork()
+  const acc = new ethers.Contract(config[network.chainId].BillSplit.address, BillSplit, provider)
+
+  const signer = await provider.getSigner()
+
+  let transaction = await acc.connect(signer).split()
+  await transaction.wait()
+}
+
+const TransferTotal = async () => {
+  const [provider, setProvider] = useState(null)
+  const prov = new ethers.providers.Web3Provider(window.ethereum)
+  setProvider(prov)
+
+  const network = await prov.getNetwork()
+  const acc = new ethers.Contract(config[network.chainId].BillSplit.address, BillSplit, provider)
+
+  const signer = await provider.getSigner()
+
+  let transaction = await acc.connect(signer).TransferTotal()
+  await transaction.wait()
+}
+
+export { UploadToIPFS, makeStorageClient, StoreFiles, InitiateSplit, Split, TransferTotal }
 
