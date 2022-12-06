@@ -10,7 +10,8 @@ import { useState } from "react";
 
 const NewSplit = ({ toggle }) => {
 
-  const [values, setValues] = useState([])
+  const [depositors, setDepositors] = useState([])
+  const [depositorAmts, setDepositorAmts] = useState([])
 
   const startSplit = async (event) => {
     event.preventDefault()
@@ -19,13 +20,13 @@ const NewSplit = ({ toggle }) => {
     const total = event.target[1].value
     const contribution = event.target[2].value
 
-    console.log(groupName, total, contribution, values)
+    console.log(groupName, total, contribution, depositors, depositorAmts)
 
   }
 
   const updateValues = (event) => {
-    console.log(event.target.id)
-    setValues(values => [...values, [event.target.id, event.target.value]])
+    setDepositors(depositors => [...depositors, event.target.id])
+    setDepositorAmts(depositorAmts => [...depositorAmts, event.target.value])
   }
 
   return (
