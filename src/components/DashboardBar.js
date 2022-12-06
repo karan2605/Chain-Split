@@ -58,7 +58,7 @@ const DashboardBar = ({ account, globalData }) => {
         >
           Start a New Split
         </Button>
-        {visible && <NewSplit toggle={toggle}/> }
+        {visible && <NewSplit toggle={toggle} globalData={globalData}/> }
       </div>
     </Navbar>
   );
