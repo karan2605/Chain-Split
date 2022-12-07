@@ -32,7 +32,7 @@ const PendingSplits = ({ globalData }) => {
                                 <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                 <Table.Cell>
                                     <Badge color="failure" size="lg">
-                                        item
+                                        {item.name}
                                     </Badge>
                                 </Table.Cell>
                                 <Table.Cell>
