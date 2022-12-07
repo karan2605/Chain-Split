@@ -6,7 +6,7 @@ import { Badge } from "flowbite-react/lib/cjs/components/Badge";
 import { Accordion } from "flowbite-react/lib/cjs/components/Accordion";
 import { HiOutlineArrowCircleDown } from "react-icons/hi";
 
-const Groups = () => {
+const Groups = ({ globalData }) => {
   return (
     <div className="flex flex-col">
       <DashboardBar />
@@ -18,455 +18,91 @@ const Groups = () => {
               "grid dark:border-4 dark:border-purple-600 dark:bg-stone-900 w-1/2"
             }
           >
-            <h1 className="text-6xl font-bold text-white">
-              Groups
-            </h1>
+            <h1 className="text-6xl font-bold text-white">Groups</h1>
             <Accordion
               arrowIcon={HiOutlineArrowCircleDown}
               alwaysOpen={false}
-              className={"text-xl"}>
-              <Accordion.Panel>
-                <Accordion.Title className={"font-bold"}>
-                  Group 1
-                </Accordion.Title>
-                <Accordion.Content>
-                  <div className="flow-root">
-                    <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src="https://flowbite.com/docs/images/people/profile-picture-1.jpg"
-                              alt=""
-                            />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
-                              Neil Sims
-                            </p>
-                          </div>
-                          <Badge color="purple" size="lg">
-                            0x213ef...j2nk
-                          </Badge>
-                          <a
-                            href="www.etherscan.io"
-                            className="text-xl font-bold hover:underline dark:text-purple-600"
-                          >
-                            View Account
-                          </a>
+              className={"text-xl"}
+            >
+              {globalData.groups &&
+                globalData.groups.map((item, key) => {
+                  return (
+                    <Accordion.Panel>
+                      <Accordion.Title className={"font-bold"}>
+                        {item.name}
+                        <Badge color="danger" size="lg">
+                          Total = {item.total}
+                        </Badge>
+                      </Accordion.Title>
+                      {item.depositors.map((i, k) => {
+                        return (
+                          <Accordion.Content>
+                            <div className="flow-root">
+                              <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+                                <li className="py-3 sm:py-4">
+                                  <div className="flex items-center space-x-4">
+                                    <div className="shrink-0">
+                                      <img
+                                        className="h-8 w-8 rounded-full"
+                                        src="https://flowbite.com/docs/images/people/profile-picture-1.jpg"
+                                        alt=""
+                                      />
+                                    </div>
+                                    <div className="min-w-0 flex-1">
+                                      <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
+                                        {i}
+                                      </p>
+                                    </div>
+                                    <Badge color="purple" size="lg">
+                                      0x213ef...j2nk
+                                    </Badge>
+                                    <a
+                                      href={`www.etherscan.io/${i}`}
+                                      className="text-xl font-bold hover:underline dark:text-purple-600"
+                                    >
+                                      View Account
+                                    </a>
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          </Accordion.Content>
+                        );
+                      })}
+                      <Accordion.Content>
+                        <div className="flow-root">
+                          <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+                            <li className="py-3 sm:py-4">
+                              <div className="flex items-center space-x-4">
+                                <div className="shrink-0">
+                                  <img
+                                    className="h-8 w-8 rounded-full"
+                                    src="https://flowbite.com/docs/images/people/profile-picture-1.jpg"
+                                    alt=""
+                                  />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
+                                    {item.initiator}
+                                  </p>
+                                </div>
+                                <Badge color="purple" size="lg">
+                                  0x213ef...j2nk
+                                </Badge>
+                                <a
+                                  href={`www.etherscan.io/${item.initiator}`}
+                                  className="text-xl font-bold hover:underline dark:text-purple-600"
+                                >
+                                  View Account
+                                </a>
+                              </div>
+                            </li>
+                          </ul>
                         </div>
-                      </li>
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
-                              alt=""
-                            />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
-                              Bonnie Green
-                            </p>
-                          </div>
-                          <Badge color="purple" size="lg">
-                            0x213ef...j2nk
-                          </Badge>
-                          <a
-                            href="/"
-                            className="text-xl font-bold hover:underline dark:text-purple-600"
-                          >
-                            View Account
-                          </a>
-                        </div>
-                      </li>
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
-                              alt=""
-                            />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
-                              Michael Gough
-                            </p>
-                          </div>
-                          <Badge color="purple" size="lg">
-                            0x213ef...j2nk
-                          </Badge>
-                          <a
-                            href="/"
-                            className="text-xl font-bold hover:underline dark:text-purple-600"
-                          >
-                            View Account
-                          </a>
-                        </div>
-                      </li>
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
-                              alt=""
-                            />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
-                              Lana Byrd
-                            </p>
-                          </div>
-                          <Badge color="purple" size="lg">
-                            0x213ef...j2nk
-                          </Badge>
-                          <a
-                            href="/"
-                            className="text-xl font-bold hover:underline dark:text-purple-600"
-                          >
-                            View Account
-                          </a>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </Accordion.Content>
-              </Accordion.Panel>
-              <Accordion.Panel>
-                <Accordion.Title className={"font-bold"}>
-                  Group 2
-                </Accordion.Title>
-                <Accordion.Content>
-                  <div className="flow-root">
-                    <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src="https://flowbite.com/docs/images/people/profile-picture-1.jpg"
-                              alt=""
-                            />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
-                              Neil Sims
-                            </p>
-                          </div>
-                          <Badge color="purple" size="lg">
-                            0x213ef...j2nk
-                          </Badge>
-                          <a
-                            href="www.etherscan.io"
-                            className="text-xl font-bold hover:underline dark:text-purple-600"
-                          >
-                            View Account
-                          </a>
-                        </div>
-                      </li>
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
-                              alt=""
-                            />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
-                              Bonnie Green
-                            </p>
-                          </div>
-                          <Badge color="purple" size="lg">
-                            0x213ef...j2nk
-                          </Badge>
-                          <a
-                            href="/"
-                            className="text-xl font-bold hover:underline dark:text-purple-600"
-                          >
-                            View Account
-                          </a>
-                        </div>
-                      </li>
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
-                              alt=""
-                            />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
-                              Michael Gough
-                            </p>
-                          </div>
-                          <Badge color="purple" size="lg">
-                            0x213ef...j2nk
-                          </Badge>
-                          <a
-                            href="/"
-                            className="text-xl font-bold hover:underline dark:text-purple-600"
-                          >
-                            View Account
-                          </a>
-                        </div>
-                      </li>
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
-                              alt=""
-                            />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
-                              Lana Byrd
-                            </p>
-                          </div>
-                          <Badge color="purple" size="lg">
-                            0x213ef...j2nk
-                          </Badge>
-                          <a
-                            href="/"
-                            className="text-xl font-bold hover:underline dark:text-purple-600"
-                          >
-                            View Account
-                          </a>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </Accordion.Content>
-              </Accordion.Panel><Accordion.Panel>
-                <Accordion.Title className={"font-bold"}>
-                  Group 3
-                </Accordion.Title>
-                <Accordion.Content>
-                  <div className="flow-root">
-                    <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src="https://flowbite.com/docs/images/people/profile-picture-1.jpg"
-                              alt=""
-                            />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
-                              Neil Sims
-                            </p>
-                          </div>
-                          <Badge color="purple" size="lg">
-                            0x213ef...j2nk
-                          </Badge>
-                          <a
-                            href="www.etherscan.io"
-                            className="text-xl font-bold hover:underline dark:text-purple-600"
-                          >
-                            View Account
-                          </a>
-                        </div>
-                      </li>
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
-                              alt=""
-                            />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
-                              Bonnie Green
-                            </p>
-                          </div>
-                          <Badge color="purple" size="lg">
-                            0x213ef...j2nk
-                          </Badge>
-                          <a
-                            href="/"
-                            className="text-xl font-bold hover:underline dark:text-purple-600"
-                          >
-                            View Account
-                          </a>
-                        </div>
-                      </li>
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
-                              alt=""
-                            />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
-                              Michael Gough
-                            </p>
-                          </div>
-                          <Badge color="purple" size="lg">
-                            0x213ef...j2nk
-                          </Badge>
-                          <a
-                            href="/"
-                            className="text-xl font-bold hover:underline dark:text-purple-600"
-                          >
-                            View Account
-                          </a>
-                        </div>
-                      </li>
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
-                              alt=""
-                            />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
-                              Lana Byrd
-                            </p>
-                          </div>
-                          <Badge color="purple" size="lg">
-                            0x213ef...j2nk
-                          </Badge>
-                          <a
-                            href="/"
-                            className="text-xl font-bold hover:underline dark:text-purple-600"
-                          >
-                            View Account
-                          </a>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </Accordion.Content>
-              </Accordion.Panel><Accordion.Panel>
-                <Accordion.Title className={"font-bold"}>
-                  Group 4
-                </Accordion.Title>
-                <Accordion.Content>
-                  <div className="flow-root">
-                    <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src="https://flowbite.com/docs/images/people/profile-picture-1.jpg"
-                              alt=""
-                            />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
-                              Neil Sims
-                            </p>
-                          </div>
-                          <Badge color="purple" size="lg">
-                            0x213ef...j2nk
-                          </Badge>
-                          <a
-                            href="www.etherscan.io"
-                            className="text-xl font-bold hover:underline dark:text-purple-600"
-                          >
-                            View Account
-                          </a>
-                        </div>
-                      </li>
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
-                              alt=""
-                            />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
-                              Bonnie Green
-                            </p>
-                          </div>
-                          <Badge color="purple" size="lg">
-                            0x213ef...j2nk
-                          </Badge>
-                          <a
-                            href="/"
-                            className="text-xl font-bold hover:underline dark:text-purple-600"
-                          >
-                            View Account
-                          </a>
-                        </div>
-                      </li>
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
-                              alt=""
-                            />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
-                              Michael Gough
-                            </p>
-                          </div>
-                          <Badge color="purple" size="lg">
-                            0x213ef...j2nk
-                          </Badge>
-                          <a
-                            href="/"
-                            className="text-xl font-bold hover:underline dark:text-purple-600"
-                          >
-                            View Account
-                          </a>
-                        </div>
-                      </li>
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="shrink-0">
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
-                              alt=""
-                            />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
-                              Lana Byrd
-                            </p>
-                          </div>
-                          <Badge color="purple" size="lg">
-                            0x213ef...j2nk
-                          </Badge>
-                          <a
-                            href="/"
-                            className="text-xl font-bold hover:underline dark:text-purple-600"
-                          >
-                            View Account
-                          </a>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </Accordion.Content>
-              </Accordion.Panel>
+                      </Accordion.Content>
+                    </Accordion.Panel>
+                  );
+                })}
             </Accordion>
           </Card>
         </div>
