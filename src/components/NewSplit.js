@@ -30,6 +30,7 @@ const NewSplit = ({ toggle, globalData, account }) => {
     });
 
     globalData.groups = [...globalData.groups, groupJSON];
+    globalData.active += 1
 
     UploadToIPFS(globalData);
     setShowAlert(true);
