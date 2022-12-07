@@ -53,9 +53,6 @@ const Groups = ({ globalData }) => {
                                         {i}
                                       </p>
                                     </div>
-                                    <Badge color="purple" size="lg">
-                                      0x213ef...j2nk
-                                    </Badge>
                                     <a
                                       href={`www.etherscan.io/${i}`}
                                       className="text-xl font-bold hover:underline dark:text-purple-600"
