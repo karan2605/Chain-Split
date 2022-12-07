@@ -22,6 +22,7 @@ const DashboardSidebar = () => {
                         href={link.path}
                         className="text-2xl text-white"
                         icon={link.icon}
+                        key={index}
                         >
                         <h1 className="text-2xl text-white">{link.name}</h1>
                         </Sidebar.Item>)
