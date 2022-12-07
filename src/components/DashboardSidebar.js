@@ -3,41 +3,29 @@ import { HiHome } from "react-icons/hi2/";
 import { HiUserGroup } from "react-icons/hi2";
 import { HiUsers } from "react-icons/hi2";
 import { HiClipboard } from "react-icons/hi2";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const DashboardSidebar = () => {
+    const links = [
+        {name: "Dashboard", path : "/dashboard", icon : HiHome},
+        {name: "Friends", path : "/friends", icon : HiUsers},
+        {name: "Groups", path : "/groups", icon : HiUserGroup},
+        {name: "Split History", path : "/history", icon : HiClipboard}
+    ]
     return (
         <Sidebar className={"w-fit row-span-3 text-4xl"}>
             <Sidebar.Items>
                 <Sidebar.ItemGroup>
-                    <Sidebar.Item
-                    href="/dashboard"
-                    className="text-2xl text-white"
-                    icon={HiHome}
-                    >
-                    <h1 className="text-2xl text-white">Dashboard</h1>
-                    </Sidebar.Item>
-                    <Sidebar.Item
-                    href="/friends"
-                    className=""
-                    icon={HiUsers}
-                    >
-                    <h1 className="text-2xl text-white">Friends</h1>
-                    </Sidebar.Item>
-                    <Sidebar.Item
-                    href="/groups"
-                    className="text-2xl text-white"
-                    icon={HiUserGroup}
-                    >
-                    <h1 className="text-2xl text-white">Groups</h1>
-                    </Sidebar.Item>
-                    <Sidebar.Item
-                    href="/history"
-                    className="text-2xl text-white"
-                    icon={HiClipboard}
-                    >
-                    <h1 className="text-2xl text-white">Split History</h1>
-                    </Sidebar.Item>
+                    {links.map((link, index) => {
+                        return (
+                        <Sidebar.Item
+                        href={link.path}
+                        className="text-2xl text-white"
+                        icon={link.icon}
+                        >
+                        <h1 className="text-2xl text-white">{link.name}</h1>
+                        </Sidebar.Item>)
+                    })}
                 </Sidebar.ItemGroup>
             </Sidebar.Items>
         </Sidebar>
