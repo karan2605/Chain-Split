@@ -5,7 +5,7 @@ import { HiUsers } from "react-icons/hi2";
 import { HiClipboard } from "react-icons/hi2";
 // import { Link } from "react-router-dom";
 
-const DashboardSidebar = (active) => {
+const DashboardSidebar = () => {
     return (
         <Sidebar className={"w-fit row-span-3 text-4xl"}>
             <Sidebar.Items>
