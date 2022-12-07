@@ -40,7 +40,6 @@ const CreateAccount = ({ globalData, globalcid }) => {
 
   const uploadAccount = async (event) => {
     event.preventDefault();
-
     const imgHash = await StoreFiles([file]);
 
     const data = new Blob([JSON.stringify({
@@ -54,7 +53,7 @@ const CreateAccount = ({ globalData, globalcid }) => {
           active: 0
         })], { type: 'application/json' });
 
-    UploadToIPFS(account, data)
+    await UploadToIPFS(account, data)
 
     setShowAlert(true)
     reset()
