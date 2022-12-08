@@ -11,16 +11,17 @@ const AddFriend = ({ toggle }) => {
   const addFriend = async (event) => {
     event.preventDefault();
 
-    const data = await GetAccountData();
-    console.log(data)
+    let data = await GetAccountData();
 
     const friendName = event.target[0].value;
     const friendAccount = event.target[1].value;
 
-    data.friends = data.friends.push({
+    data.friends = [...data.friends, {
       account: friendAccount,
       name: friendName,
-    });
+    }];
+
+    data = new Blob([JSON.stringify(data)], { type: 'application/json' });
 
     await UploadToIPFS(data.account, data);
 
@@ -39,7 +40,7 @@ const AddFriend = ({ toggle }) => {
         >
           <span>
             <span className="font-medium">
-              Account Created! You can now log in by connecting to MetaMask
+              Friend Added!
             </span>
           </span>
         </Alert>
