@@ -2,7 +2,22 @@ import { Card } from "flowbite-react/lib/cjs/components/Card/Card";
 import { Badge } from "flowbite-react/lib/cjs/components/Badge/Badge";
 import { Link } from "react-router-dom";
 
+import { GetAccountData } from "../Utilities";
+
+import { useEffect, useState } from "react";
+
 const Friends = ({ globalData }) => {
+    const [data, setData] = useState(null);
+
+    const getData = async () => {
+        const data = await GetAccountData()
+        setData(data)
+    }
+
+    useEffect(() => {
+        getData()
+    },[])
+
     return (
         <Card className={"dark:border-4 dark:border-purple-600 dark:bg-stone-900 place-content-center"}>
             <div className="flex flex-col">
@@ -16,7 +31,7 @@ const Friends = ({ globalData }) => {
                 </div>
                 <div className="flow-root">
                     <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-                        {globalData.friends && globalData.friends.map ((item, key) => {
+                        {data && data.friends.map ((item, key) => {
                             return (
                             <li className="py-3 sm:py-4" key={key}>
                             <div className="flex items-center space-x-4">
@@ -33,7 +48,7 @@ const Friends = ({ globalData }) => {
                                 </p>
                                 </div>
                                 <Badge color="purple" size="lg">
-                                    {item.account}
+                                    {item.account && item.account.slice(0, 5) + '...' + item.account.slice(38, 42)}
                                 </Badge>
                             </div>
                             </li>);

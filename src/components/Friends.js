@@ -4,7 +4,21 @@ import SiteFooter from "./SiteFooter";
 import { Card } from "flowbite-react/lib/cjs/components/Card";
 import { Badge } from "flowbite-react/lib/cjs/components/Badge";
 
+import { GetAccountData } from "./Utilities";
+
+import { useEffect, useState } from "react";
+
 const Friends = ({ globalData }) => {
+  const [data, setData] = useState(null);
+
+    const getData = async () => {
+        const data = await GetAccountData()
+        setData(data)
+    }
+
+    useEffect(() => {
+        getData()
+    },[])
   return (
     <div className="flex flex-col">
       <DashboardBar />
@@ -22,7 +36,7 @@ const Friends = ({ globalData }) => {
               </h1>
               <div className="flow-root">
                 <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {globalData.friends && globalData.friends.map((item, key) => {
+                  {data && data.friends.map((item, key) => {
                     return (
                       <li className="py-3 sm:py-4" key={key}>
                         <div className="flex items-center space-x-4">
