@@ -17,7 +17,6 @@ import Account from "../abis/Account.json";
 const Dashboard = ({ globalData }) => {
   const [account, setAccount] = useState(null);
   const [provider, setProvider] = useState(null);
-  
 
   function getAccessToken() {
     return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGE0RjI0MjVkMGVGZjE5QmFFZDc1YzA3ZTNENEJiNDI4MTdiZDYzZGYiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NjkzNzA0NTA0NjIsIm5hbWUiOiJDaGFpblNwbGl0In0.IniPPZENlFLjDWi4_tAwgc67THksBDYTcSrCYR2kj28";
@@ -45,8 +44,8 @@ const Dashboard = ({ globalData }) => {
     if (!res.ok) {
       throw new Error(`failed to get ${cid}`);
     }
-    const files = await res.files()
-    globalData = JSON.parse(await files[0].text())
+    const files = await res.files();
+    globalData = JSON.parse(await files[0].text());
   }
 
   const connectHandler = async () => {
@@ -60,7 +59,7 @@ const Dashboard = ({ globalData }) => {
   useEffect(() => {
     connectHandler();
     retrieve();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -70,9 +69,9 @@ const Dashboard = ({ globalData }) => {
         <DashboardSidebar />
         <div className="grid grid-rows-2 grid-cols-3 h-screen bg-stone-900 gap-6 px-20 py-20 w-full">
           <Stats globalData={globalData} />
-          <RecentActivity globalData={globalData}/>
+          <RecentActivity globalData={globalData} />
           <Friends globalData={globalData} />
-          <PendingSplits globalData={globalData}/>
+          <PendingSplits globalData={globalData} />
         </div>
       </div>
       <SiteFooter />

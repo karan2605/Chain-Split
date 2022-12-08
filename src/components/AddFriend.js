@@ -16,12 +16,15 @@ const AddFriend = ({ toggle }) => {
     const friendName = event.target[0].value;
     const friendAccount = event.target[1].value;
 
-    data.friends = [...data.friends, {
-      account: friendAccount,
-      name: friendName,
-    }];
+    data.friends = [
+      ...data.friends,
+      {
+        account: friendAccount,
+        name: friendName,
+      },
+    ];
 
-    data = new Blob([JSON.stringify(data)], { type: 'application/json' });
+    data = new Blob([JSON.stringify(data)], { type: "application/json" });
 
     await UploadToIPFS(data.account, data);
 
@@ -39,9 +42,7 @@ const AddFriend = ({ toggle }) => {
           }}
         >
           <span>
-            <span className="font-medium">
-              Friend Added!
-            </span>
+            <span className="font-medium">Friend Added!</span>
           </span>
         </Alert>
       )}
