@@ -56,7 +56,7 @@ contract BillSplit is ReentrancyGuard {
         uint256 _initiatorAmt,
         address payable[] memory _depositors,
         uint256[] memory _depositorAmts
-    ) external OnlyInitiator {
+    ) external {
         depositors = _depositors;
         totalAmount = _totalAmount;
         initiator = _initiator;
