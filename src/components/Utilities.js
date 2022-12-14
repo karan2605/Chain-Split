@@ -68,24 +68,24 @@ const InitiateSplit = async (
   depositors,
   depositorAmts
 ) => {
-  const [provider, setProvider] = useState(null);
+
   const prov = new ethers.providers.Web3Provider(window.ethereum);
-  setProvider(prov);
+
 
   const network = await prov.getNetwork();
   const acc = new ethers.Contract(
     config[network.chainId].BillSplit.address,
     BillSplit,
-    provider
+    prov
   );
 
-  const signer = await provider.getSigner();
+  const signer = prov.getSigner();
 
   let transaction = await acc
     .connect(signer)
     .initiateSplit(
       totalAmount,
-      provider,
+      signer.account,
       initiatorAmt,
       depositors,
       depositorAmts
