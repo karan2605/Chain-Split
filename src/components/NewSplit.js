@@ -1,11 +1,14 @@
 import { Label, TextInput, Button, Modal, Table, Alert } from "flowbite-react";
 
-import { useState } from "react";
+import { ethers } from "hardhat";
+
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { InitiateSplit, UploadToIPFS } from "./Utilities";
+import { InitiateSplit, UploadToIPFS, GetAccountData } from "./Utilities";
 
 const NewSplit = ({ toggle, globalData, account }) => {
   const [showAlert, setShowAlert] = useState(false);
+  const [data, setData] = useState(null);
   const { reset } = useForm();
 
   const [depositors, setDepositors] = useState([]);
@@ -18,6 +21,11 @@ const NewSplit = ({ toggle, globalData, account }) => {
     const total = event.target[1].value;
     const contribution = event.target[2].value;
 
+    for(let i = 0; i < data.friends.length; i++) {
+      setDepositors((depositors) => [...depositors, ethers.getAddress(event.target[i+3].id)]);
+      setDepositorAmts((depositorAmts) => [...depositorAmts, event.target[i+3].value]);
+    }
+
     InitiateSplit(total, contribution, depositors, depositorAmts);
 
     const groupJSON = JSON.stringify({
@@ -29,18 +37,24 @@ const NewSplit = ({ toggle, globalData, account }) => {
       depositorAmts: depositorAmts,
     });
 
-    globalData.groups = [...globalData.groups, groupJSON];
-    globalData.active += 1
+    data.groups = [...data.groups, groupJSON];
+    data.active += 1;
 
-    UploadToIPFS(globalData);
+    console.log(data)
+
+    // await UploadToIPFS(new Blob([JSON.stringify(data)], { type: "application/json" }));
     setShowAlert(true);
     reset();
   };
 
-  const updateValues = (event) => {
-    setDepositors((depositors) => [...depositors, event.target.id]);
-    setDepositorAmts((depositorAmts) => [...depositorAmts, event.target.value]);
+  const getData = async () => {
+    const data = await GetAccountData();
+    setData(data);
   };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <Modal show={true} position="center" onClose={toggle} size="4xl">
@@ -96,81 +110,25 @@ const NewSplit = ({ toggle, globalData, account }) => {
                 <Table.HeadCell>Amount Required</Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y">
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Friend 1
-                  </Table.Cell>
-                  <Table.Cell>
-                    <TextInput
-                      id="Friend1"
-                      type="number"
-                      size="sm"
-                      placeholder="> 0"
-                      className="font-mono"
-                      onChange={updateValues}
-                    />
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Friend 2
-                  </Table.Cell>
-                  <Table.Cell>
-                    <TextInput
-                      id="Friend2"
-                      type="number"
-                      size="sm"
-                      placeholder="> 0"
-                      className="font-mono"
-                      onChange={updateValues}
-                    />
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Friend 3
-                  </Table.Cell>
-                  <Table.Cell>
-                    <TextInput
-                      id="Friend3"
-                      type="number"
-                      size="sm"
-                      placeholder="> 0"
-                      className="font-mono"
-                      onChange={updateValues}
-                    />
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Friend 4
-                  </Table.Cell>
-                  <Table.Cell>
-                    <TextInput
-                      id="Friend4"
-                      type="number"
-                      size="sm"
-                      placeholder="> 0"
-                      className="font-mono"
-                      onChange={updateValues}
-                    />
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Friend 5
-                  </Table.Cell>
-                  <Table.Cell>
-                    <TextInput
-                      id="Friend5"
-                      type="number"
-                      size="sm"
-                      placeholder="> 0"
-                      className="font-mono"
-                      onChange={updateValues}
-                    />
-                  </Table.Cell>
-                </Table.Row>
+                {data &&
+                  data.friends.map((item, key) => {
+                    return (
+                      <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={key}>
+                        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                          {item.name}
+                        </Table.Cell>
+                        <Table.Cell>
+                          <TextInput
+                            id={item.account}
+                            type="number"
+                            size="sm"
+                            placeholder="> 0"
+                            className="font-mono"
+                          />
+                        </Table.Cell>
+                      </Table.Row>
+                    );
+                  })}
               </Table.Body>
             </Table>
           </div>
