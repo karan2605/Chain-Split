@@ -1,6 +1,6 @@
 import { Label, TextInput, Button, Modal, Table, Alert } from "flowbite-react";
 
-import { ethers } from "hardhat";
+import { ethers } from "ethers";
 
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -22,7 +22,7 @@ const NewSplit = ({ toggle, globalData, account }) => {
     const contribution = event.target[2].value;
 
     for(let i = 0; i < data.friends.length; i++) {
-      setDepositors((depositors) => [...depositors, ethers.getAddress(event.target[i+3].id)]);
+      setDepositors((depositors) => [...depositors, event.target[i+3].id]);
       setDepositorAmts((depositorAmts) => [...depositorAmts, event.target[i+3].value]);
     }
 
