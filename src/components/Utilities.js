@@ -2,7 +2,7 @@ import { Web3Storage, File } from "web3.storage";
 
 import config from "../config.json";
 import Account from "../abis/Account.json";
-import BillSplit from "../abis/BillSplit.json";
+import SplitExpenses from "../abis/SplitExpenses.json";
 
 import { ethers } from "ethers";
 import { useState } from "react";
@@ -63,69 +63,65 @@ async function StoreFiles(files) {
 }
 
 const InitiateSplit = async (
+  name,
   totalAmount,
-  initiatorAmt,
-  depositors,
-  depositorAmts
+  members,
+  amounts
 ) => {
-
   const prov = new ethers.providers.Web3Provider(window.ethereum);
-
 
   const network = await prov.getNetwork();
   const acc = new ethers.Contract(
-    config[network.chainId].BillSplit.address,
-    BillSplit,
+    config[network.chainId].SplitExpenses.address,
+    SplitExpenses,
     prov
   );
 
   const signer = prov.getSigner();
-
   let transaction = await acc
     .connect(signer)
     .initiateSplit(
+      name,
       totalAmount,
-      signer.account,
-      initiatorAmt,
-      depositors,
-      depositorAmts
+      members,
+      amounts
     );
   await transaction.wait();
 };
 
-const Split = async () => {
+const Contribute = async (name) => {
   const [provider, setProvider] = useState(null);
   const prov = new ethers.providers.Web3Provider(window.ethereum);
   setProvider(prov);
 
   const network = await prov.getNetwork();
   const acc = new ethers.Contract(
-    config[network.chainId].BillSplit.address,
-    BillSplit,
+    config[network.chainId].SplitExpenses.address,
+    SplitExpenses,
     provider
   );
 
   const signer = await provider.getSigner();
 
-  let transaction = await acc.connect(signer).split();
+  let transaction = await acc.connect(signer).contribute(name);
   await transaction.wait();
 };
 
-const TransferTotal = async () => {
+const TransferTotal = async (name) => {
   const [provider, setProvider] = useState(null);
   const prov = new ethers.providers.Web3Provider(window.ethereum);
   setProvider(prov);
 
   const network = await prov.getNetwork();
   const acc = new ethers.Contract(
-    config[network.chainId].BillSplit.address,
-    BillSplit,
+    config[network.chainId].SplitExpenses.address,
+    SplitExpenses,
     provider
   );
 
   const signer = await provider.getSigner();
 
-  let transaction = await acc.connect(signer).TransferTotal();
+  let transaction = await acc.connect(signer).TransferTotal(name);
   await transaction.wait();
 };
 
@@ -134,7 +130,7 @@ export {
   makeStorageClient,
   StoreFiles,
   InitiateSplit,
-  Split,
+  Contribute,
   TransferTotal,
   GetAccountData,
 };
