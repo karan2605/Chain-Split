@@ -14,6 +14,7 @@ contract SplitExpenses is ReentrancyGuard {
     address public deployer;
 
     mapping(string => Group) public groups;
+    mapping(address => string[]) public userGroups;
 
     mapping(string => uint256) contractBalances;
 
@@ -75,7 +76,10 @@ contract SplitExpenses is ReentrancyGuard {
 
         for (uint i = 0; i < _amounts.length; i++) {
             groups[_name].contributions[_members[i]] = _amounts[i];
+
+            userGroups[_members[i]].push(_name);
         }
+
 
         // Transfer depositors tokens into contract
         token.transferFrom(deployer, address(this), _amounts[0]);
@@ -127,5 +131,17 @@ contract SplitExpenses is ReentrancyGuard {
 
         // Emit an event indicating the depositor has sent money to the initiator through the contract
         emit SplitCompleted(msg.sender, groups[_name].totalAmount);
+    }
+
+    function getMembers(string memory _name) external view returns (address[] memory) {
+        return groups[_name].members;
+    }
+
+    function getTotal(string memory _name) external view returns(uint256) {
+        return groups[_name].totalAmount;
+    }
+
+    function getUserGroups(address _account) external view returns(string[] memory) {
+        return userGroups[_account];
     }
 }
