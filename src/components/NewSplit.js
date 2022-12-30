@@ -1,7 +1,5 @@
 import { Label, TextInput, Button, Modal, Table, Alert } from "flowbite-react";
 
-import { ethers } from "ethers";
-
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { InitiateSplit, UploadToIPFS, GetAccountData } from "./Utilities";
@@ -16,33 +14,29 @@ const NewSplit = ({ toggle, globalData, account }) => {
 
   const startSplit = async (event) => {
     event.preventDefault();
+    setDepositors([]);
+    setDepositorAmts([]);
 
     const groupName = event.target[0].value;
     const total = event.target[1].value;
     const contribution = event.target[2].value;
 
-    for(let i = 0; i < data.friends.length; i++) {
-      setDepositors((depositors) => [...depositors, event.target[i+3].id]);
-      setDepositorAmts((depositorAmts) => [...depositorAmts, event.target[i+3].value]);
+    setDepositors([data.account]);
+    setDepositorAmts([contribution]);
+
+    for (let i = 0; i < data.friends.length; i++) {
+      setDepositors((depositors) => [...depositors, event.target[i + 3].id]);
+      setDepositorAmts((depositorAmts) => [
+        ...depositorAmts,
+        event.target[i + 3].value,
+      ]);
     }
 
-    InitiateSplit(total, contribution, depositors, depositorAmts);
+    await InitiateSplit(groupName, total, depositors, depositorAmts);
 
-    const groupJSON = JSON.stringify({
-      name: groupName,
-      total: total,
-      initiator: account,
-      initiatorAmt: contribution,
-      depositors: depositors,
-      depositorAmts: depositorAmts,
-    });
-
-    data.groups = [...data.groups, groupJSON];
     data.active += 1;
 
-    console.log(data)
-
-    // await UploadToIPFS(new Blob([JSON.stringify(data)], { type: "application/json" }));
+    await UploadToIPFS(data.account, new Blob([JSON.stringify(data)], { type: "application/json" }));
     setShowAlert(true);
     reset();
   };
@@ -63,6 +57,8 @@ const NewSplit = ({ toggle, globalData, account }) => {
           color="success"
           onDismiss={function onDismiss() {
             setShowAlert(false);
+            setDepositors([]);
+            setDepositorAmts([]);
           }}
         >
           <span>
@@ -113,7 +109,10 @@ const NewSplit = ({ toggle, globalData, account }) => {
                 {data &&
                   data.friends.map((item, key) => {
                     return (
-                      <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={key}>
+                      <Table.Row
+                        className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                        key={key}
+                      >
                         <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                           {item.name}
                         </Table.Cell>
