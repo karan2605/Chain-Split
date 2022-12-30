@@ -122,8 +122,40 @@ const TransferTotal = async (name) => {
   await transaction.wait();
 };
 
-const ActiveSplits = async (account) => {
+const ActiveSplits = async () => {
+  const prov = new ethers.providers.Web3Provider(window.ethereum);
 
+  const accounts = await window.ethereum.request({
+    method: "eth_requestAccounts",
+  });
+  const account = ethers.utils.getAddress(accounts[0]);
+
+  const contract = new ethers.Contract(
+    SplitExpensesAddress.address,
+    SplitExpensesAbi.abi,
+    prov
+  );
+
+  const groupData = []
+  const userGroups = await contract.getUserGroups(account);
+
+  for(let i=0; i < userGroups.length; i++) {
+    const groupMembers = await contract.getMembers(userGroups[i]);
+
+
+    const groupTotal = await contract.getTotal(userGroups[i])
+    // console.log(groupTotal.toString())
+
+    const group = JSON.stringify({
+      group: userGroups[i],
+      members: groupMembers,
+      total: groupTotal
+    })
+
+    groupData.push(group)
+  }
+
+  return groupData
 }
 
 export {
