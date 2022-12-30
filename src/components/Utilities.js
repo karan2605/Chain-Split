@@ -149,7 +149,7 @@ const ActiveSplits = async () => {
     const group = JSON.stringify({
       group: userGroups[i],
       members: groupMembers,
-      total: groupTotal
+      total: groupTotal.toString()
     })
 
     groupData.push(group)
