@@ -79,12 +79,13 @@ contract SplitExpenses is ReentrancyGuard {
 
         // Transfer depositors tokens into contract
         token.transferFrom(deployer, address(this), _amounts[0]);
+        contractBalances[_name] = _amounts[0];
+
         require(
-            token.balanceOf(address(this)) == _amounts[0],
+            contractBalances[_name] == _amounts[0],
             "Initiators split not transferred"
         );
 
-        contractBalances[_name] = _amounts[0];
         emit SplitInitiated(_members[0], _totalAmount);
     }
 
