@@ -141,10 +141,7 @@ const ActiveSplits = async () => {
 
   for(let i=0; i < userGroups.length; i++) {
     const groupMembers = await contract.getMembers(userGroups[i]);
-
-
     const groupTotal = await contract.getTotal(userGroups[i])
-    // console.log(groupTotal.toString())
 
     const group = JSON.stringify({
       group: userGroups[i],
