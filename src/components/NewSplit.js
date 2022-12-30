@@ -35,6 +35,7 @@ const NewSplit = ({ toggle, globalData, account }) => {
     await InitiateSplit(groupName, total, depositors, depositorAmts);
 
     data.active += 1;
+    data.contributed += contribution;
 
     await UploadToIPFS(data.account, new Blob([JSON.stringify(data)], { type: "application/json" }));
     setShowAlert(true);
