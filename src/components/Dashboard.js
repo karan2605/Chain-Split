@@ -29,10 +29,10 @@ const Dashboard = ({ globalData }) => {
   async function retrieve() {
     const prov = new ethers.providers.Web3Provider(window.ethereum);
     setProvider(prov);
-    const network = await prov.getNetwork();
+    
     const account = new ethers.Contract(
       AccountAddress.address,
-      AccountAbi,
+      AccountAbi.abi,
       provider
     );
     const signer = prov.getSigner();

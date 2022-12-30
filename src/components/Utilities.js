@@ -25,7 +25,7 @@ const UploadToIPFS = async (account, data) => {
 
   const acc = new ethers.Contract(
     AccountAddress.address,
-    AccountAbi,
+    AccountAbi.abi,
     prov
   );
 
@@ -39,7 +39,7 @@ const GetAccountData = async () => {
   const prov = new ethers.providers.Web3Provider(window.ethereum);
   const account = new ethers.Contract(
     AccountAddress.address,
-    AccountAbi,
+    AccountAbi.abi,
     prov
   );
   const signer = prov.getSigner();
@@ -72,7 +72,7 @@ const InitiateSplit = async (
 
   const acc = new ethers.Contract(
     SplitExpensesAddress.address,
-    SplitExpensesAbi,
+    SplitExpensesAbi.abi,
     prov
   );
 
@@ -95,7 +95,7 @@ const Contribute = async (name) => {
 
   const acc = new ethers.Contract(
     SplitExpensesAddress.address,
-    SplitExpensesAbi,
+    SplitExpensesAbi.abi,
     provider
   );
 
@@ -112,7 +112,7 @@ const TransferTotal = async (name) => {
 
   const acc = new ethers.Contract(
     SplitExpensesAddress.address,
-    SplitExpensesAbi,
+    SplitExpensesAbi.abi,
     provider
   );
 
@@ -122,6 +122,10 @@ const TransferTotal = async (name) => {
   await transaction.wait();
 };
 
+const ActiveSplits = async (account) => {
+
+}
+
 export {
   UploadToIPFS,
   makeStorageClient,
@@ -130,4 +134,5 @@ export {
   Contribute,
   TransferTotal,
   GetAccountData,
+  ActiveSplits
 };
