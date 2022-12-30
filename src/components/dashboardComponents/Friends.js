@@ -3,10 +3,9 @@ import { Badge } from "flowbite-react/lib/cjs/components/Badge/Badge";
 import { Link } from "react-router-dom";
 
 import { GetAccountData } from "../Utilities";
-
 import { useEffect, useState } from "react";
 
-const Friends = ({ globalData }) => {
+const Friends = () => {
   const [data, setData] = useState(null);
 
   const getData = async () => {
