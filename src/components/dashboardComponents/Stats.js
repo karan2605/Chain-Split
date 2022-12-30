@@ -1,7 +1,18 @@
 import { Card } from "flowbite-react/lib/cjs/components/Card/Card";
+import { useEffect, useState } from "react";
+import { GetAccountData } from "../Utilities";
 
-const Stats = ({ globalData }) => {
+const Stats = () => {
+  const [data, setData] = useState(null);
 
+  const getData = async () => {
+    const data = await GetAccountData();
+    setData(data);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <Card
       className={
@@ -15,7 +26,7 @@ const Stats = ({ globalData }) => {
               Total Received
             </h5>
             <h1 className="text-5xl font-bold tracking-tight text-green-500">
-               {0 && globalData.received} ETH
+               {0 || data.received} ETH
             </h1>
           </Card>
           <Card className={"h-96 text-center"}>
@@ -23,7 +34,7 @@ const Stats = ({ globalData }) => {
               Total Contributed
             </h5>
             <h1 className="text-5xl font-bold tracking-tight text-red-600">
-              {0 && globalData.contributed} ETH
+              {0 || data.contributed} ETH
             </h1>
           </Card>
           <Card className={"h-96 text-center"}>
@@ -31,7 +42,7 @@ const Stats = ({ globalData }) => {
               Number of Active Splits
             </h5>
             <h1 className="text-5xl font-bold tracking-tight text-blue-500">
-              {0 && globalData.active}
+              {0 || data.active}
             </h1>
           </Card>
         </div>
