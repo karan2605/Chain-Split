@@ -22,7 +22,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-node_modules
 .env
 coverage
 coverage.json
@@ -33,8 +32,6 @@ typechain-types
 cache
 artifacts
 
-
-node_modules
 .env
 coverage
 coverage.json
@@ -45,3 +42,6 @@ typechain-types
 cache
 artifacts
 
+/src/contractData/Account-address.json
+/src/contractData/ERC20-address.json
+/src/contractData/SplitExpenses-address.json
