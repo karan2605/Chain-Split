@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import DashboardSidebar from "./DashboardSidebar";
 import DashboardBar from "./DashboardBar";
 import SiteFooter from "./SiteFooter";
-import RecentActivity from "./dashboardComponents/RecentActivity";
 import Friends from "./dashboardComponents/Friends";
 import PendingSplits from "./dashboardComponents/PendingSplits";
 import Stats from "./dashboardComponents/Stats";
@@ -67,9 +66,8 @@ const Dashboard = ({ globalData }) => {
       <DashboardBar account={account} globalData={globalData} />
       <div className="flex flex-row">
         <DashboardSidebar />
-        <div className="grid grid-rows-2 grid-cols-3 h-screen bg-stone-900 gap-6 px-20 py-20 w-full">
+        <div className="grid grid-rows-2 grid-cols-2 h-screen bg-stone-900 gap-6 px-20 py-20 w-full">
           <Stats globalData={globalData} />
-          <RecentActivity globalData={globalData} />
           <Friends globalData={globalData} />
           <PendingSplits globalData={globalData} />
         </div>
