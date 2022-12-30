@@ -11,8 +11,8 @@ import Stats from "./dashboardComponents/Stats";
 
 import { Web3Storage } from "web3.storage";
 
-import config from "../config.json";
-import Account from "../abis/Account.json";
+import AccountAddress from "../contractData/Account-address.json";
+import AccountAbi from "../contractData/Account.json";
 
 const Dashboard = ({ globalData }) => {
   const [account, setAccount] = useState(null);
@@ -31,8 +31,8 @@ const Dashboard = ({ globalData }) => {
     setProvider(prov);
     const network = await prov.getNetwork();
     const account = new ethers.Contract(
-      config[network.chainId].Account.address,
-      Account,
+      AccountAddress.address,
+      AccountAbi,
       provider
     );
     const signer = prov.getSigner();

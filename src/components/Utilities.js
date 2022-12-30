@@ -1,8 +1,10 @@
 import { Web3Storage, File } from "web3.storage";
 
-import config from "../config.json";
-import Account from "../abis/Account.json";
-import SplitExpenses from "../abis/SplitExpenses.json";
+import AccountAddress from "../contractData/Account-address.json";
+import SplitExpensesAddress from "../contractData/SplitExpenses-address.json"
+
+import AccountAbi from "../contractData/Account.json";
+import SplitExpensesAbi from "../contractData/SplitExpenses.json";
 
 import { ethers } from "ethers";
 import { useState } from "react";
@@ -21,10 +23,9 @@ const UploadToIPFS = async (account, data) => {
 
   const prov = new ethers.providers.Web3Provider(window.ethereum);
 
-  const network = await prov.getNetwork();
   const acc = new ethers.Contract(
-    config[network.chainId].Account.address,
-    Account,
+    AccountAddress.address,
+    AccountAbi,
     prov
   );
 
@@ -36,10 +37,9 @@ const UploadToIPFS = async (account, data) => {
 
 const GetAccountData = async () => {
   const prov = new ethers.providers.Web3Provider(window.ethereum);
-  const network = await prov.getNetwork();
   const account = new ethers.Contract(
-    config[network.chainId].Account.address,
-    Account,
+    AccountAddress.address,
+    AccountAbi,
     prov
   );
   const signer = prov.getSigner();
@@ -70,10 +70,9 @@ const InitiateSplit = async (
 ) => {
   const prov = new ethers.providers.Web3Provider(window.ethereum);
 
-  const network = await prov.getNetwork();
   const acc = new ethers.Contract(
-    config[network.chainId].SplitExpenses.address,
-    SplitExpenses,
+    SplitExpensesAddress.address,
+    SplitExpensesAbi,
     prov
   );
 
@@ -94,10 +93,9 @@ const Contribute = async (name) => {
   const prov = new ethers.providers.Web3Provider(window.ethereum);
   setProvider(prov);
 
-  const network = await prov.getNetwork();
   const acc = new ethers.Contract(
-    config[network.chainId].SplitExpenses.address,
-    SplitExpenses,
+    SplitExpensesAddress.address,
+    SplitExpensesAbi,
     provider
   );
 
@@ -112,10 +110,9 @@ const TransferTotal = async (name) => {
   const prov = new ethers.providers.Web3Provider(window.ethereum);
   setProvider(prov);
 
-  const network = await prov.getNetwork();
   const acc = new ethers.Contract(
-    config[network.chainId].SplitExpenses.address,
-    SplitExpenses,
+    SplitExpensesAddress.address,
+    SplitExpensesAbi,
     provider
   );
 
