@@ -40,6 +40,7 @@ const PendingSplits = ({ globalData }) => {
 
   useEffect(() => {
     findActive();
+    getAccount();
   }, []);
 
   return (
@@ -92,7 +93,7 @@ const PendingSplits = ({ globalData }) => {
                           size="sm"
                           className="font-semibold "
                         >
-                          <span className="text-lg">Contribute</span>
+                          <span className="text-lg">Collect Funds</span>
                         </Button>
                       ) : (
                         <Button
@@ -100,7 +101,7 @@ const PendingSplits = ({ globalData }) => {
                           size="sm"
                           className="font-semibold "
                         >
-                          <span className="text-lg">Collect Funds</span>
+                          <span className="text-lg">Contribute</span>
                         </Button>
                       )}
                     </Table.Cell>
