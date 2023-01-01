@@ -55,6 +55,20 @@ const GetAccountData = async () => {
   return JSON.parse(await files[0].text());
 };
 
+const GetImage = async () => {
+  const data = await GetAccountData();
+  const cid = data.picture
+
+  const client = makeStorageClient();
+  let res = await client.get("bafybeieflumr522jchcrn5k3dyajtur4kknomjfpsrrpqxscn2zgztcjgy");
+  console.log(`Got a response! [${res.status}] ${res.statusText}`);
+  if (!res.ok) {
+    throw new Error(`failed to get ${cid}`);
+  }
+  const files = await res.files();
+  return files
+}
+
 async function StoreFiles(files) {
   const client = makeStorageClient();
   const cid = await client.put(files);
@@ -163,5 +177,6 @@ export {
   Contribute,
   TransferTotal,
   GetAccountData,
-  ActiveSplits
+  ActiveSplits,
+  GetImage
 };
