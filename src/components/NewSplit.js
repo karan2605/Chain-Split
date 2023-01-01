@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { InitiateSplit, UploadToIPFS, GetAccountData } from "./Utilities";
 
-const NewSplit = ({ toggle, globalData, account }) => {
+const NewSplit = ({ toggle }) => {
   const [showAlert, setShowAlert] = useState(false);
   const [data, setData] = useState(null);
   const { reset } = useForm();
@@ -35,7 +35,7 @@ const NewSplit = ({ toggle, globalData, account }) => {
     await InitiateSplit(groupName, total, depositors, depositorAmts);
 
     data.active += 1;
-    data.contributed += contribution;
+    data.contributed = parseInt(data.contributed) + parseInt(contribution);
 
     await UploadToIPFS(data.account, new Blob([JSON.stringify(data)], { type: "application/json" }));
     setShowAlert(true);
