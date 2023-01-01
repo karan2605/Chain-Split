@@ -72,7 +72,7 @@ const PendingSplits = ({ globalData }) => {
             {splits &&
               splits.map((item, key) => {
                 return (
-                  <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={key}>
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                       {JSON.parse(item).group}
                     </Table.Cell>
@@ -80,7 +80,7 @@ const PendingSplits = ({ globalData }) => {
                     <Table.Cell className="flex gap-2">
                       {JSON.parse(item).members.map((i, k) => {
                         return (
-                          <Badge color={colours[getRandomInt(0, 6)]} size="lg">
+                          <Badge color={colours[getRandomInt(0, 6)]} size="lg" key={k}>
                             {i.slice(0, 5) + "..." + i.slice(38, 42)}
                           </Badge>
                         );
