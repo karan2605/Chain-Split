@@ -67,9 +67,9 @@ const Dashboard = ({ globalData }) => {
       <div className="flex flex-row">
         <DashboardSidebar />
         <div className="grid grid-rows-2 grid-cols-2 h-screen bg-stone-900 gap-6 px-20 py-20 w-full">
-          <Stats globalData={globalData} />
-          <Friends globalData={globalData} />
-          <PendingSplits globalData={globalData} />
+          <Stats />
+          <Friends />
+          <PendingSplits />
         </div>
       </div>
       <SiteFooter />
