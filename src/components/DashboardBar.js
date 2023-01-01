@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-import { Navbar } from "flowbite-react/lib/cjs/components/Navbar/Navbar";
-import { Button } from "flowbite-react/lib/cjs/components/Button/Button";
-import { Badge } from "flowbite-react/lib/cjs/components/Badge/Badge";
-import { Avatar } from "flowbite-react/lib/cjs/components/Avatar/Avatar";
+import { Navbar, Button, Badge, Avatar } from "flowbite-react";
+
+import { GetImage } from './Utilities';
 
 import NewSplit from "./NewSplit";
 import AddFriend from "./AddFriend";
@@ -13,6 +12,17 @@ import logo from "../assets/logo.png";
 const DashboardBar = ({ account }) => {
   const [visible, setVisible] = useState(false);
   const [friend, setFriend] = useState(false);
+  const [picture, setPicture] = useState(null);
+
+  const getData = async () => {
+    const image = await GetImage()
+    const url = URL.createObjectURL(image[0])
+    setPicture(url)
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const toggle = () => {
     visible ? setVisible(false) : setVisible(true)
@@ -31,7 +41,7 @@ const DashboardBar = ({ account }) => {
         </span>
       </Navbar.Brand>
       <div className="flex text-xl gap-4 items-center">
-      <Avatar />
+      <Avatar img={picture} />
         <Badge
           size="lg"
           color="dark"
