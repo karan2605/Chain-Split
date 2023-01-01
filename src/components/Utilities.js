@@ -60,7 +60,7 @@ const GetImage = async () => {
   const cid = data.picture
 
   const client = makeStorageClient();
-  let res = await client.get("bafybeieflumr522jchcrn5k3dyajtur4kknomjfpsrrpqxscn2zgztcjgy");
+  let res = await client.get(cid);
   console.log(`Got a response! [${res.status}] ${res.statusText}`);
   if (!res.ok) {
     throw new Error(`failed to get ${cid}`);
