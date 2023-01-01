@@ -24,18 +24,18 @@ const Stats = () => {
         <div className="flex flex-row gap-4 items-center justify-evenly">
           <Card className={"h-96 text-center"}>
             <h5 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Total Received
+              Total Received (ERC20)
             </h5>
             <h1 className="text-5xl font-bold tracking-tight text-green-500">
-               {data && data.received} ETH
+               {data && data.received} 
             </h1>
           </Card>
           <Card className={"h-96 text-center"}>
             <h5 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Total Contributed
+              Total Contributed (ERC20)
             </h5>
             <h1 className="text-5xl font-bold tracking-tight text-red-600">
-              {data && data.contributed} ETH
+              {data && data.contributed} 
             </h1>
           </Card>
           <Card className={"h-96 text-center"}>
