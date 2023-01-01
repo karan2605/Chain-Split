@@ -10,7 +10,7 @@ import AddFriend from "./AddFriend";
 
 import logo from "../assets/logo.png";
 
-const DashboardBar = ({ account, globalData }) => {
+const DashboardBar = ({ account }) => {
   const [visible, setVisible] = useState(false);
   const [friend, setFriend] = useState(false);
 
@@ -49,7 +49,7 @@ const DashboardBar = ({ account, globalData }) => {
         >
           Add Friends
         </Button>
-        {friend && <AddFriend toggle={toggleFriend} globalData={globalData}/> }
+        {friend && <AddFriend toggle={toggleFriend} /> }
         <Button
           size="2xl"
           gradientMonochrome="success"
@@ -58,7 +58,7 @@ const DashboardBar = ({ account, globalData }) => {
         >
           Start a New Split
         </Button>
-        {visible && <NewSplit toggle={toggle} globalData={globalData} account={account}/> }
+        {visible && <NewSplit toggle={toggle} account={account}/> }
       </div>
     </Navbar>
   );
