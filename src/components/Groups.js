@@ -1,12 +1,51 @@
 import DashboardBar from "./DashboardBar";
 import DashboardSidebar from "./DashboardSidebar";
 import SiteFooter from "./SiteFooter";
-import { Card } from "flowbite-react/lib/cjs/components/Card";
-import { Badge } from "flowbite-react/lib/cjs/components/Badge";
-import { Accordion } from "flowbite-react/lib/cjs/components/Accordion";
-import { HiOutlineArrowCircleDown } from "react-icons/hi";
 
-const Groups = ({ globalData }) => {
+import { useEffect, useState } from "react";
+import { ActiveSplits } from "./Utilities";
+import { ethers } from "ethers";
+
+import { Card, Badge, Table } from "flowbite-react";
+
+const Groups = () => {
+   const [splits, setSplits] = useState(null);
+  const [account, setAccount] = useState(null);
+
+  const colours = [
+    "info",
+    "failure",
+    "success",
+    "warning",
+    "indigo",
+    "purple",
+    "pink",
+  ];
+
+  const getAccount = async () => {
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    const account = ethers.utils.getAddress(accounts[0]);
+    setAccount(account);
+  };
+
+  const findActive = async () => {
+    const splits = await ActiveSplits();
+    setSplits(splits);
+  };
+
+  function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  useEffect(() => {
+    findActive();
+    getAccount();
+  }, []);
+
   return (
     <div className="flex flex-col">
       <DashboardBar />
@@ -15,92 +54,43 @@ const Groups = ({ globalData }) => {
         <div className="flex flex-row h-screen bg-stone-900 px-20 py-20 w-full justify-center col-span-2">
           <Card
             className={
-              "grid dark:border-4 dark:border-purple-600 dark:bg-stone-900 w-1/2"
+              "grid dark:border-4 dark:border-purple-600 dark:bg-stone-900 w-2/3"
             }
           >
             <h1 className="text-6xl font-bold text-white">Groups</h1>
-            <Accordion
-              arrowIcon={HiOutlineArrowCircleDown}
-              alwaysOpen={false}
-              className={"text-xl"}
-            >
-              {globalData.groups &&
-                globalData.groups.map((item, key) => {
-                  return (
-                    <Accordion.Panel>
-                      <Accordion.Title className={"font-bold"}>
-                        {item.name}
-                        <Badge color="danger" size="lg">
-                          Total = {item.total}
-                        </Badge>
-                      </Accordion.Title>
-                      {item.depositors.map((i, k) => {
+            <Table striped={true} className="text-md">
+          <Table.Head className={"text-lg"}>
+            <Table.HeadCell>Group</Table.HeadCell>
+            <Table.HeadCell>Total (ERC20)</Table.HeadCell>
+            <Table.HeadCell>Members</Table.HeadCell>
+            <Table.HeadCell>Status</Table.HeadCell>
+          </Table.Head>
+          <Table.Body className="divide-y">
+            {splits &&
+              splits.map((item, key) => {
+                return (
+                  <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={key}>
+                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                      {JSON.parse(item).group}
+                    </Table.Cell>
+                    <Table.Cell>{JSON.parse(item).total}</Table.Cell>
+                    <Table.Cell className="flex gap-2">
+                      {JSON.parse(item).members.map((i, k) => {
                         return (
-                          <Accordion.Content>
-                            <div className="flow-root">
-                              <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-                                <li className="py-3 sm:py-4">
-                                  <div className="flex items-center space-x-4">
-                                    <div className="shrink-0">
-                                      <img
-                                        className="h-8 w-8 rounded-full"
-                                        src="https://flowbite.com/docs/images/people/profile-picture-1.jpg"
-                                        alt=""
-                                      />
-                                    </div>
-                                    <div className="min-w-0 flex-1">
-                                      <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
-                                        {i}
-                                      </p>
-                                    </div>
-                                    <a
-                                      href={`www.etherscan.io/${i}`}
-                                      className="text-xl font-bold hover:underline dark:text-purple-600"
-                                    >
-                                      View Account
-                                    </a>
-                                  </div>
-                                </li>
-                              </ul>
-                            </div>
-                          </Accordion.Content>
+                          <Badge color={colours[getRandomInt(0, 6)]} size="lg" key={k}>
+                            {i.slice(0, 5) + "..." + i.slice(38, 42)}
+                          </Badge>
                         );
                       })}
-                      <Accordion.Content>
-                        <div className="flow-root">
-                          <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-                            <li className="py-3 sm:py-4">
-                              <div className="flex items-center space-x-4">
-                                <div className="shrink-0">
-                                  <img
-                                    className="h-8 w-8 rounded-full"
-                                    src="https://flowbite.com/docs/images/people/profile-picture-1.jpg"
-                                    alt=""
-                                  />
-                                </div>
-                                <div className="min-w-0 flex-1">
-                                  <p className="truncate text-lg font-medium text-gray-900 dark:text-white">
-                                    {item.initiator}
-                                  </p>
-                                </div>
-                                <Badge color="purple" size="lg">
-                                  0x213ef...j2nk
-                                </Badge>
-                                <a
-                                  href={`www.etherscan.io/${item.initiator}`}
-                                  className="text-xl font-bold hover:underline dark:text-purple-600"
-                                >
-                                  View Account
-                                </a>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                      </Accordion.Content>
-                    </Accordion.Panel>
-                  );
-                })}
-            </Accordion>
+                    </Table.Cell>
+                    <Table.Cell>
+                      
+                    </Table.Cell>
+                  </Table.Row>
+                );
+              })}
+          </Table.Body>
+        </Table>
           </Card>
         </div>
       </div>
