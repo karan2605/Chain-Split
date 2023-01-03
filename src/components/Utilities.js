@@ -103,9 +103,7 @@ const InitiateSplit = async (
 };
 
 const Contribute = async (name) => {
-  const [provider, setProvider] = useState(null);
-  const prov = new ethers.providers.Web3Provider(window.ethereum);
-  setProvider(prov);
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
 
   const acc = new ethers.Contract(
     SplitExpensesAddress.address,
@@ -120,9 +118,7 @@ const Contribute = async (name) => {
 };
 
 const TransferTotal = async (name) => {
-  const [provider, setProvider] = useState(null);
-  const prov = new ethers.providers.Web3Provider(window.ethereum);
-  setProvider(prov);
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
 
   const acc = new ethers.Contract(
     SplitExpensesAddress.address,
