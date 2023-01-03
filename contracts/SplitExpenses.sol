@@ -128,6 +128,7 @@ contract SplitExpenses is ReentrancyGuard {
         token.transfer(msg.sender, contractBalances[_name]);
 
         contractBalances[_name] = 0;
+        delete groups[_name];
 
         // Emit an event indicating the depositor has sent money to the initiator through the contract
         emit SplitCompleted(msg.sender, groups[_name].totalAmount);
