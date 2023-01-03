@@ -4,13 +4,11 @@ import SiteFooter from "./SiteFooter";
 
 import { useEffect, useState } from "react";
 import { ActiveSplits } from "./Utilities";
-import { ethers } from "ethers";
 
 import { Card, Badge, Table } from "flowbite-react";
 
 const Groups = () => {
-   const [splits, setSplits] = useState(null);
-  const [account, setAccount] = useState(null);
+  const [splits, setSplits] = useState(null);
 
   const colours = [
     "info",
@@ -21,14 +19,6 @@ const Groups = () => {
     "purple",
     "pink",
   ];
-
-  const getAccount = async () => {
-    const accounts = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
-    const account = ethers.utils.getAddress(accounts[0]);
-    setAccount(account);
-  };
 
   const findActive = async () => {
     const splits = await ActiveSplits();
@@ -43,7 +33,6 @@ const Groups = () => {
 
   useEffect(() => {
     findActive();
-    getAccount();
   }, []);
 
   return (
@@ -59,38 +48,43 @@ const Groups = () => {
           >
             <h1 className="text-6xl font-bold text-white">Groups</h1>
             <Table striped={true} className="text-md">
-          <Table.Head className={"text-lg"}>
-            <Table.HeadCell>Group</Table.HeadCell>
-            <Table.HeadCell>Total (ERC20)</Table.HeadCell>
-            <Table.HeadCell>Members</Table.HeadCell>
-            <Table.HeadCell>Status</Table.HeadCell>
-          </Table.Head>
-          <Table.Body className="divide-y">
-            {splits &&
-              splits.map((item, key) => {
-                return (
-                  <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={key}>
-                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                      {JSON.parse(item).group}
-                    </Table.Cell>
-                    <Table.Cell>{JSON.parse(item).total}</Table.Cell>
-                    <Table.Cell className="flex gap-2">
-                      {JSON.parse(item).members.map((i, k) => {
-                        return (
-                          <Badge color={colours[getRandomInt(0, 6)]} size="lg" key={k}>
-                            {i.slice(0, 5) + "..." + i.slice(38, 42)}
-                          </Badge>
-                        );
-                      })}
-                    </Table.Cell>
-                    <Table.Cell>
-                      
-                    </Table.Cell>
-                  </Table.Row>
-                );
-              })}
-          </Table.Body>
-        </Table>
+              <Table.Head className={"text-lg"}>
+                <Table.HeadCell>Group</Table.HeadCell>
+                <Table.HeadCell>Total (ERC20)</Table.HeadCell>
+                <Table.HeadCell>Members</Table.HeadCell>
+                <Table.HeadCell>Status</Table.HeadCell>
+              </Table.Head>
+              <Table.Body className="divide-y">
+                {splits &&
+                  splits.map((item, key) => {
+                    return (
+                      <Table.Row
+                        className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                        key={key}
+                      >
+                        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                          {JSON.parse(item).group}
+                        </Table.Cell>
+                        <Table.Cell>{JSON.parse(item).total}</Table.Cell>
+                        <Table.Cell className="flex gap-2">
+                          {JSON.parse(item).members.map((i, k) => {
+                            return (
+                              <Badge
+                                color={colours[getRandomInt(0, 6)]}
+                                size="lg"
+                                key={k}
+                              >
+                                {i.slice(0, 5) + "..." + i.slice(38, 42)}
+                              </Badge>
+                            );
+                          })}
+                        </Table.Cell>
+                        <Table.Cell></Table.Cell>
+                      </Table.Row>
+                    );
+                  })}
+              </Table.Body>
+            </Table>
           </Card>
         </div>
       </div>
