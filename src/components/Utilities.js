@@ -127,7 +127,7 @@ const TransferTotal = async (name) => {
 
   const signer = await provider.getSigner();
 
-  let transaction = await acc.connect(signer).TransferTotal(name);
+  let transaction = await acc.connect(signer).transferTotal(name);
   await transaction.wait();
 };
 
