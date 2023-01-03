@@ -7,7 +7,6 @@ import AccountAbi from "../contractData/Account.json";
 import SplitExpensesAbi from "../contractData/SplitExpenses.json";
 
 import { ethers } from "ethers";
-import { useState } from "react";
 
 function getAccessToken() {
   return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGE0RjI0MjVkMGVGZjE5QmFFZDc1YzA3ZTNENEJiNDI4MTdiZDYzZGYiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NjkzNzA0NTA0NjIsIm5hbWUiOiJDaGFpblNwbGl0In0.IniPPZENlFLjDWi4_tAwgc67THksBDYTcSrCYR2kj28";
@@ -165,6 +164,25 @@ const ActiveSplits = async () => {
   return groupData
 }
 
+const GetAmountOwed = async (name) => {
+  const prov = new ethers.providers.Web3Provider(window.ethereum);
+
+  const accounts = await window.ethereum.request({
+    method: "eth_requestAccounts",
+  });
+  const account = ethers.utils.getAddress(accounts[0]);
+
+  const contract = new ethers.Contract(
+    SplitExpensesAddress.address,
+    SplitExpensesAbi.abi,
+    prov
+  );
+
+  const amount = await contract.getAmount(name, account)
+
+  return amount
+}
+
 export {
   UploadToIPFS,
   makeStorageClient,
@@ -174,5 +192,6 @@ export {
   TransferTotal,
   GetAccountData,
   ActiveSplits,
-  GetImage
+  GetImage,
+  GetAmountOwed
 };
