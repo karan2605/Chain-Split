@@ -46,7 +46,7 @@ const Stats = () => {
               Number of Active Splits
             </h5>
             <h1 className="text-5xl font-bold tracking-tight text-blue-500">
-              {data && active.length}
+              {active && active.length}
             </h1>
           </Card>
         </div>
