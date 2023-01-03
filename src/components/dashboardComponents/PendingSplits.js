@@ -5,7 +5,13 @@ import { ActiveSplits } from "../Utilities";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 
-import { Contribute, TransferTotal, GetAccountData, UploadToIPFS } from "../Utilities";
+import {
+  Contribute,
+  TransferTotal,
+  GetAccountData,
+  UploadToIPFS,
+  GetAmountOwed,
+} from "../Utilities";
 
 const PendingSplits = () => {
   const [splits, setSplits] = useState(null);
@@ -48,11 +54,15 @@ const PendingSplits = () => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  const contribute = async (name, contribution) => {
-    await Contribute(name);
+  const contribute = async (name) => {
+    //await Contribute(name);
+    const contribution = await GetAmountOwed(name);
 
-    data.contributed = parseInt(data.contributed) + parseInt(contribution);
-    const newdata = new Blob([JSON.stringify(data)], { type: "application/json" });
+    data.contributed += parseInt(contribution);
+
+    const newdata = new Blob([JSON.stringify(data)], {
+      type: "application/json",
+    });
     await UploadToIPFS(data.account, newdata);
 
     setShowAlertContribute(true);
@@ -61,8 +71,10 @@ const PendingSplits = () => {
   const transferTotal = async (name, total) => {
     await TransferTotal(name);
 
-    data.received = parseInt(data.received) + parseInt(total);
-    const newdata = new Blob([JSON.stringify(data)], { type: "application/json" });
+    data.received += parseInt(total);
+    const newdata = new Blob([JSON.stringify(data)], {
+      type: "application/json",
+    });
     await UploadToIPFS(data.account, newdata);
 
     setShowAlertTransfer(true);
@@ -154,7 +166,12 @@ const PendingSplits = () => {
                           gradientDuoTone="purpleToPink"
                           size="sm"
                           className="font-semibold "
-                          onClick={() => transferTotal(JSON.parse(item).group, JSON.parse(item).total)}
+                          onClick={() =>
+                            transferTotal(
+                              JSON.parse(item).group,
+                              JSON.parse(item).total
+                            )
+                          }
                         >
                           <span className="text-lg">Collect Funds</span>
                         </Button>
