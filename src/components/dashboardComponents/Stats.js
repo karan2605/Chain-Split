@@ -1,13 +1,16 @@
 import { Card } from "flowbite-react/lib/cjs/components/Card/Card";
 import { useEffect, useState } from "react";
-import { GetAccountData } from "../Utilities";
+import { GetAccountData, ActiveSplits } from "../Utilities";
 
 const Stats = () => {
   const [data, setData] = useState(null);
+  const[active, setActive] = useState(null)
 
   const getData = async () => {
     const data = await GetAccountData();
     setData(data);
+    const active = await ActiveSplits()
+    setActive(active)
   };
 
   useEffect(() => {
@@ -43,7 +46,7 @@ const Stats = () => {
               Number of Active Splits
             </h5>
             <h1 className="text-5xl font-bold tracking-tight text-blue-500">
-              {data && data.active}
+              {data && active.length}
             </h1>
           </Card>
         </div>
