@@ -42,6 +42,7 @@ typechain-types
 cache
 artifacts
 
-/src/contractData/Account-address.json
-/src/contractData/ERC20-address.json
-/src/contractData/SplitExpenses-address.json
+src/contractData/Account-address.json
+src/contractData/ERC20-address.json
+src/contractData/SplitExpenses-address.json
+src/contractData/SplitExpenses.json
