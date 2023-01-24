@@ -3,12 +3,13 @@ import DashboardSidebar from "./DashboardSidebar";
 import SiteFooter from "./SiteFooter";
 
 import { useEffect, useState } from "react";
-import { ActiveSplits } from "./Utilities";
+import { ActiveSplits, CompletedSplit } from "./Utilities";
 
 import { Card, Badge, Table } from "flowbite-react";
 
 const Groups = () => {
   const [splits, setSplits] = useState(null);
+  const [completed, setCompleted] = useState([]);
 
   const colours = [
     "info",
@@ -20,9 +21,11 @@ const Groups = () => {
     "pink",
   ];
 
-  const findActive = async () => {
+  const getData = async () => {
     const splits = await ActiveSplits();
     setSplits(splits);
+    const splitCompleted = await CompletedSplit("my group");
+    setCompleted(splitCompleted);
   };
 
   function getRandomInt(min, max) {
@@ -32,7 +35,7 @@ const Groups = () => {
   }
 
   useEffect(() => {
-    findActive();
+    getData();
   }, []);
 
   return (
@@ -79,7 +82,17 @@ const Groups = () => {
                             );
                           })}
                         </Table.Cell>
-                        <Table.Cell></Table.Cell>
+                        <Table.Cell>
+                          {completed[key] === false ? (
+                            <Badge color="success" size="lg">
+                              Completed
+                            </Badge>
+                          ) : (
+                            <Badge color="failure" size="lg">
+                              Not Completed
+                            </Badge>
+                          )}
+                        </Table.Cell>
                       </Table.Row>
                     );
                   })}
