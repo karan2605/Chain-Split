@@ -164,6 +164,38 @@ const ActiveSplits = async () => {
   return groupData
 }
 
+const CompletedSplit = async ({ groupName}) => {
+  const prov = new ethers.providers.Web3Provider(window.ethereum);
+
+  const accounts = await window.ethereum.request({
+    method: "eth_requestAccounts",
+  });
+  const account = ethers.utils.getAddress(accounts[0]);
+
+  const contract = new ethers.Contract(
+    SplitExpensesAddress.address,
+    SplitExpensesAbi.abi,
+    prov
+  );
+  
+  const groupData = []
+  const userGroups = await contract.getUserGroups(account);
+
+  for(let i=0; i < userGroups.length; i++) {
+    const group = await contract.groups(userGroups[i])
+
+    if(group[0] !== "") {
+      groupData.push(true)
+    }
+    else {
+      groupData.push(false)
+    }
+  }
+
+  return groupData
+}
+  
+
 const GetAmountOwed = async (name) => {
   const prov = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -193,5 +225,6 @@ export {
   GetAccountData,
   ActiveSplits,
   GetImage,
-  GetAmountOwed
+  GetAmountOwed,
+  CompletedSplit
 };
