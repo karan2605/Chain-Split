@@ -55,7 +55,7 @@ const PendingSplits = () => {
   }
 
   const contribute = async (name) => {
-    //await Contribute(name);
+    await Contribute(name);
     const contribution = await GetAmountOwed(name);
 
     data.contributed += parseInt(contribution);
