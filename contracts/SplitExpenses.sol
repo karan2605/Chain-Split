@@ -76,7 +76,7 @@ contract SplitExpenses is ReentrancyGuard {
 
         for (uint i = 0; i < _amounts.length; i++) {
             groups[_name].contributions[_members[i]] = _amounts[i];
-
+            groups[_name].approvals[_members[i]] = false;
             userGroups[_members[i]].push(_name);
         }
 
@@ -94,8 +94,8 @@ contract SplitExpenses is ReentrancyGuard {
 
     function contribute(string memory _name) external {
         // Check balance before TxN
-        require(groups[_name].approvals[msg.sender] = false, "User has already contributed");
-        
+        require(groups[_name].approvals[msg.sender] == false, "User has already contributed");
+
         uint256 balanceBefore = contractBalances[_name];
         uint256 contribution = groups[_name].contributions[msg.sender];
 
