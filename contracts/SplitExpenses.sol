@@ -94,6 +94,8 @@ contract SplitExpenses is ReentrancyGuard {
 
     function contribute(string memory _name) external {
         // Check balance before TxN
+        require(groups[_name].approvals[msg.sender] = false, "User has already contributed");
+        
         uint256 balanceBefore = contractBalances[_name];
         uint256 contribution = groups[_name].contributions[msg.sender];
 
@@ -106,6 +108,8 @@ contract SplitExpenses is ReentrancyGuard {
             contractBalances[_name] == contribution + balanceBefore,
             "Funds not received from depositor"
         );
+
+        groups[_name].approvals[msg.sender] = true;
 
         // Emit an event indicating the depositor has sent money to the initiator through the contract
         emit DepositReceived(msg.sender, contribution);
