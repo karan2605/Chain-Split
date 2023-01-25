@@ -40,7 +40,7 @@ contract SplitExpenses is ReentrancyGuard {
     event SplitInitiated(address initiator, uint256 total);
 
     // Event emitted when a depositer has sent tokens to the contract
-    event DepositReceived(address sender, uint256 amount);
+    event DepositReceived(address sender, string group, uint256 amount);
 
     // Event emitted when the split has been completed
     event SplitCompleted(string name, uint256 totalAmount);
@@ -112,7 +112,7 @@ contract SplitExpenses is ReentrancyGuard {
         groups[_name].approvals[msg.sender] = true;
 
         // Emit an event indicating the depositor has sent money to the initiator through the contract
-        emit DepositReceived(msg.sender, contribution);
+        emit DepositReceived(msg.sender, _name, contribution);
     }
 
     function transferTotal(string memory _name) external {
