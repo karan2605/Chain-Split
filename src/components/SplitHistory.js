@@ -13,7 +13,6 @@ const SplitHistory = () => {
 
   const getSplitEvents = async () => {
     const events = await GetEvents();
-    console.log(events)
     getEvents(events);
   };
 
